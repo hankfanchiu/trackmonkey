@@ -17,16 +17,16 @@ ActiveRecord::Schema.define(version: 20160213204031) do
   enable_extension "plpgsql"
 
   create_table "packages", force: :cascade do |t|
-    t.string   "phone_number",                  null: false
-    t.string   "pin",                           null: false
-    t.boolean  "verified",      default: false, null: false
-    t.string   "tracking_id",                   null: false
-    t.boolean  "alert_updates", default: true,  null: false
-    t.boolean  "alert_final",   default: true,  null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.string   "phone_number",                    null: false
+    t.string   "pin",                             null: false
+    t.boolean  "verified",        default: false, null: false
+    t.string   "tracking_number",                 null: false
+    t.boolean  "alert_updates",   default: true,  null: false
+    t.boolean  "alert_final",     default: true,  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
-  add_index "packages", ["phone_number", "tracking_id"], name: "index_packages_on_phone_number_and_tracking_id", unique: true, using: :btree
+  add_index "packages", ["phone_number", "tracking_number"], name: "index_packages_on_phone_number_and_tracking_number", unique: true, using: :btree
 
 end

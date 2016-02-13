@@ -24,8 +24,8 @@ class Package < ActiveRecord::Base
     format: { with: /[0-9]+/ },
     length: { is: 4 }
 
-  validates_presence_of :tracking_id
-  validates_uniqueness_of :phone_number, { scope: :tracking_id }
+  validates_presence_of :tracking_number
+  validates_uniqueness_of :phone_number, { scope: :tracking_number }
 
   def generate_pin
     self.pin = rand(0000..9999).to_s.rjust(4, "0")

@@ -1,9 +1,9 @@
 class PackagesController < ApplicationController
   def index
-    tracking_id = params[:tracking_id]
+    tracking = params[:tracking_number]
     carrier = params[:carrier]
 
-    url = URI.parse("https://api.goshippo.com/v1/tracks/#{carrier}/#{tracking_id}/")
+    url = URI.parse("https://api.goshippo.com/v1/tracks/#{carrier}/#{tracking}/")
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
 
@@ -44,6 +44,6 @@ class PackagesController < ApplicationController
   private
 
   def package_params
-    params.require(:package).permit(:phone_number, :tracking_id)
+    params.require(:package).permit(:phone_number, :tracking_number)
   end
 end
