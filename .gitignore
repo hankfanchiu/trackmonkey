@@ -11,3 +11,7 @@
 /log/*
 !/log/.keep
 /tmp
+
+* Ignore node_modules and bundle.js
+/node_modules
+bundle.js
