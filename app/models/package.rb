@@ -27,6 +27,13 @@ class Package < ActiveRecord::Base
   validates_presence_of :tracking_number
   validates_uniqueness_of :phone_number, { scope: :tracking_number }
 
+  def self.send_updates(tracking)
+    packages = self.where(verified: true)
+      .where(tracking_number: tracking[:tracking_number])
+
+    packages.each { |package| package.send_sms_update(tracking) }
+  end
+
   def generate_pin
     self.pin = rand(0000..9999).to_s.rjust(4, "0")
     save
@@ -49,5 +56,20 @@ class Package < ActiveRecord::Base
 
   def verify(entered_pin)
     update(verified: true) if self.pin == entered_pin
+  end
+
+  private
+
+  def send_sms_update(tracking)
+    number = tracking[:tracking_number]
+    status = tracking[:status]
+    carrier = tracking[:carrier]
+    url = "http://localhost:3000/packages?tracking_number=#{number}&carrier=#{carrier}"
+
+    twilio_client.messages.create(
+      to: phone_number,
+      from: ENV['TWILIO_PHONE_NUMBER'],
+      body: "The status of your package (tracking number #{number]}) has been updated to #{status}. See more details here: #{url}"
+    )
   end
 end
