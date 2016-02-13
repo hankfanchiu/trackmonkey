@@ -24,8 +24,8 @@ class Package < ActiveRecord::Base
     format: { with: /[0-9]+/ },
     length: { is: 4 }
 
-  # validates_presence_of :tracking_id
-  # validates_uniqueness_of :phone_number, { scope: :tracking_id }
+  validates_presence_of :tracking_id
+  validates_uniqueness_of :phone_number, { scope: :tracking_id }
 
   def generate_pin
     self.pin = rand(0000..9999).to_s.rjust(4, "0")
@@ -33,7 +33,10 @@ class Package < ActiveRecord::Base
   end
 
   def twilio_client
-    Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+    Twilio::REST::Client.new(
+      ENV['TWILIO_ACCOUNT_SID'],
+      ENV['TWILIO_AUTH_TOKEN']
+    )
   end
 
   def send_pin
@@ -48,8 +51,3 @@ class Package < ActiveRecord::Base
     update(verified: true) if self.pin == entered_pin
   end
 end
-
-
-# export TWILIO_ACCOUNT_SID=AC320f1d62088c93c0de5a872adf8fa740
-# export TWILIO_AUTH_TOKEN=4b2763a0e21f6b306a47bb0d5bfdba4f
-# export TWILIO_PHONE_NUMBER=15106835757

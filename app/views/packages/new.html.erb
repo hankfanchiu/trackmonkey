@@ -4,13 +4,19 @@
     <div class="form-group">
       <%= f.text_field :phone_number %>
     </div>
+
+    <h4>Tracking ID</h4>
+    <div class="form-group">
+      <%= f.text_field :tracking_id %>
+    </div>
+    
     <%= f.submit "Send PIN", class: "btn btn-primary", id: 'send-pin-link' %>
   <% end %>
 </div>
 
 <div id="verify-pin">
   <h3>Enter your PIN</h3>
-  <%= form_tag packages_verify_path, remote: true do |f| %>
+  <%= form_tag verify_packages_path, remote: true do |f| %>
     <%= hidden_field_tag 'hidden_phone_number', '' %>
     <div class="form-group">
       <%= text_field_tag :pin %>

@@ -29,12 +29,4 @@ ActiveRecord::Schema.define(version: 20160213204031) do
 
   add_index "packages", ["phone_number", "tracking_id"], name: "index_packages_on_phone_number_and_tracking_id", unique: true, using: :btree
 
-  create_table "phone_numbers", force: :cascade do |t|
-    t.string   "phone_number"
-    t.string   "pin"
-    t.boolean  "verified"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
 end
