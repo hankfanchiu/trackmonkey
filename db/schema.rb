@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160213193533) do
+ActiveRecord::Schema.define(version: 20160213204031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "packages", force: :cascade do |t|
-    t.string   "phone",                         null: false
+    t.string   "phone_number",                  null: false
     t.string   "pin",                           null: false
     t.boolean  "verified",      default: false, null: false
     t.string   "tracking_id",                   null: false
@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(version: 20160213193533) do
     t.datetime "updated_at",                    null: false
   end
 
-  add_index "packages", ["phone", "tracking_id"], name: "index_packages_on_phone_and_tracking_id", unique: true, using: :btree
+  add_index "packages", ["phone_number", "tracking_id"], name: "index_packages_on_phone_number_and_tracking_id", unique: true, using: :btree
+
+  create_table "phone_numbers", force: :cascade do |t|
+    t.string   "phone_number"
+    t.string   "pin"
+    t.boolean  "verified"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
 end
