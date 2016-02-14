@@ -69,7 +69,7 @@ class Package < ActiveRecord::Base
     twilio_client.messages.create(
       to: phone_number,
       from: ENV['TWILIO_PHONE_NUMBER'],
-      body: "The status of your package (tracking number #{number]}) has been updated to #{status}. See more details here: #{url}"
+      body: "The status of your package (tracking number #{number}) has been updated to #{status}. See more details here: #{url}"
     )
   end
 end
