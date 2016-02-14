@@ -1,16 +1,15 @@
-var React = require('react'),
-	ReactDOM = require('react-dom'),
-	hashHistory = React.hashHistory;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var hashHistory = React.hashHistory;
 
-var ReactRouter = require('react-router'),
-	Router = ReactRouter.Router,
-	Route = ReactRouter.Route,
-	IndexRoute = ReactRouter.IndexRoute;
+var ReactRouter = require('react-router');
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var IndexRoute = ReactRouter.IndexRoute;
 
-var Form = require('./form.jsx'),
-	Footer = require('./footer.jsx'),
-	Tracking = require('./tracking.jsx');
-
+var Form = require('./form.jsx');
+var Footer = require('./footer.jsx');
+var Tracking = require('./tracking.jsx');
 
 var App = React.createClass({
 	render: function () {

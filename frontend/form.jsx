@@ -1,29 +1,20 @@
-var React = require('react'),
-	LinkedStateMixin = require('react-addons-linked-state-mixin'),
-	History = require('react-router').History;
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var History = require('react-router').History;
 
-var Input = require('react-bootstrap').Input,
-	ButtonInput = require('react-bootstrap').ButtonInput,
-	DropdownButton = require('react-bootstrap').DropdownButton,
-	MenuItem = require('react-bootstrap').MenuItem,
-	Collapse = require('react-bootstrap').Collapse,
-	Well = require('react-bootstrap').Well
-	Button = require('react-bootstrap').Button;
-
-var carriers = {
-		usps: "USPS",
-		fedex: "FedEx",
-		dhl_express: "DHL Express",
-		canada_post: "Canada Post",
-		lasership: "LaserShip",
-		modal_relay: "Modal Relay"
-};
+var Input = require('react-bootstrap').Input;
+var ButtonInput = require('react-bootstrap').ButtonInput;
+var DropdownButton = require('react-bootstrap').DropdownButton;
+var MenuItem = require('react-bootstrap').MenuItem;
+var Collapse = require('react-bootstrap').Collapse;
+var Well = require('react-bootstrap').Well;
+var Button = require('react-bootstrap').Button;
 
 var Form = React.createClass({
 	mixins: [LinkedStateMixin, History],
 
 	getInitialState: function  () {
-		return { 
+		return {
 			tracking: false,
 			carrier: "",
 			shipmentNo: "",
@@ -35,7 +26,7 @@ var Form = React.createClass({
 	toggleCarrier: function (e, carrier) {
 		e.preventDefault()
 
-		this.setState({ carrier: carrier })
+		this.setState({ carrier: carrier });
 	},
 
 	carriers: {
@@ -56,41 +47,49 @@ var Form = React.createClass({
 	},
 
 	render: function  () {
-		var submitText = this.state.tracking ? "Find & Track Package" : "Find Package"
+		var submitText = this.state.tracking ? "Find & Track Package" : "Find Package";
 
 		var carrierOptions = Object.keys(this.carriers).map(function(carrier){
-			return <MenuItem eventKey={carrier} key={carrier}>{this.carriers[carrier]}</MenuItem>;
+			return (
+				<MenuItem eventKey={carrier} key={carrier}>
+					{this.carriers[carrier]}
+				</MenuItem>
+			);
 		}.bind(this));
 
 		var dropdownTitle = this.state.carrier === "" ? "Select Carrier" : this.carriers[this.state.carrier];
 
 		var carrierDropdown = (
-			<DropdownButton title={dropdownTitle} id="input-dropdown-addon" onSelect={this.toggleCarrier} >
+			<DropdownButton title={dropdownTitle}
+				id="input-dropdown-addon"
+				onSelect={this.toggleCarrier}>
+
 				{carrierOptions}
-  			</DropdownButton>
+			</DropdownButton>
 		);
 
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<Input 
-					placeholder="Enter Shipment Number"
+				<Input placeholder="Enter Shipment Number"
 		          	type="text"
 		          	buttonAfter={carrierDropdown}
 		          	valueLink={this.linkState('shipmentNo')}/>
+
 		        <Button block onClick={ ()=> this.setState({ tracking: !this.state.tracking })}>
 		          Track Package
 		        </Button>
+
 		        <Collapse in={this.state.tracking}>
 		        	<div>
 		        		<Well>
-		        			<Input 
+		        			<Input
 								placeholder="Enter Phone Number"
 					          	type="text"
 					          	valueLink={this.linkState('phoneNo')}/>
-					        <Input 
-					        	type="checkbox" 
+					        <Input
+					        	type="checkbox"
 					        	className="active"
-					        	label="Keep me updated along the way" 
+					        	label="Keep me updated along the way"
 					        	help="Leave this unchecked if you want to only be notified upon arrival"
 					        	valueLink={this.linkState('receiveUpdates')}/>
 		        		</Well>
@@ -101,10 +100,8 @@ var Form = React.createClass({
 
 		        <ButtonInput type="submit" bsStyle="primary" value={submitText} block/>
 			</form>
-		)	
-}
-
-
+		)
+	}
 });
 
 module.exports = Form;
