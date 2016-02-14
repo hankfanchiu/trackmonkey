@@ -38,7 +38,7 @@ var Form = React.createClass({
 		dhl_express: "DHL Express",
 		canada_post: "Canada Post",
 		lasership: "LaserShip",
-		modal_relay: "Modal Relay"
+		mondial_relay: "Mondial Relay"
 	},
 
 	contextTypes: {

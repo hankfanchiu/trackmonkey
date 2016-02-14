@@ -31,14 +31,25 @@ var Map = React.createClass ({
 
      var that = this;
 
+     console.log(addresses);
+
      var genMarker = function (i) {
        if (i < addresses.length) {
           $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[i]+'&sensor=false', null, function (data) {
             var p = data.results[0].geometry.location
+            var iconUrl = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+
+            if (i === 0){
+              iconUrl = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
+            } else if (i === (addresses.length-1)) {
+              iconUrl = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+            }
+
             var latlng = new google.maps.LatLng(p.lat, p.lng);
             var marker = new google.maps.Marker({
                 position: latlng,
-                map: map
+                map: map,
+                icon: iconUrl
             });
             if (markerList.indexOf(marker) == -1) {
              markerList.push(marker);
