@@ -158,7 +158,7 @@ $mobile-size: 400px !default;
         .stacked-text {
             position: relative;
             z-index: 10;
-            top: 0;
+            top: -20px;
             margin-left: 60% !important;
             width: 45% !important;
             display: inline-block;
@@ -185,16 +185,3 @@ $mobile-size: 400px !default;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
