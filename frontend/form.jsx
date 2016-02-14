@@ -15,9 +15,8 @@ var Form = React.createClass({
 
 	getInitialState: function  () {
 		return {
-			tracking: true,
 			carrier: "",
-			shipmentNo: "",
+			trackingNo: "",
 			phoneNo: "",
 			receiveUpdates: true,
 			modalOpen: false,
@@ -49,44 +48,76 @@ var Form = React.createClass({
 	handleSubmit: function (e) {
 		e.preventDefault();
 
-		var packageData = {
-			phone_number: this.state.phoneNo,
-			tracking_number: this.state.shipmentNo,
-			carrier: this.state.carrier,
-			alert_updates: this.state.tracking
-		};
+		this.getTracking();
+	},
 
-		if (this.state.phoneNo !== "") {
-			$.ajax({
-				url: 'packages',
-				type: 'POST',
-				dataType: 'json',
-				data: {package: packageData},
-				success: function (data) {
-					console.log(data);
-					this.setState({ modalOpen: true, packageId: data.package_id });
-				}.bind(this),
-				error: function (data) {
-					console.log(data);
-					console.log("Failed");
+	redirectToMap: function () {
+		var url = "/tracking/" + this.state.carrier + "___" + this.state.trackingNo;
+		this.context.router.push(url);
+	},
+
+	getTracking: function () {
+		var url = "https://api.goshippo.com/v1/tracks/" + this.state.carrier + "/" + this.state.trackingNo;
+
+		$.ajax({
+			url: url,
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				if (this.isValidTracking(data)) {
+					this.handleValidTracking();
+				} else {
+					this.alertInvalidTracking();
 				}
-			})
+			}.bind(this),
+			error: function () {
+				console.log("Shippo threw an error");
+			}
+		})
+	},
+
+	isValidTracking: function (data) {
+		return data.tracking_status !== null;
+	},
+
+	alertInvalidTracking: function () {
+		alert("Invalid tracking information.");
+
+		this.setState(this.getInitialState());
+	},
+
+	handleValidTracking: function (data) {
+		if (this.validPhoneNo()) {
+			this.postPackageData();
 		} else {
 			this.redirectToMap();
 		}
 	},
 
-	redirectToMap: function () {
-		var url = "/tracking/" + this.state.carrier + "___" + this.state.shipmentNo;
-		this.context.router.push(url);
+	postPackageData: function () {
+		var packageData = {
+			phone_number: this.state.phoneNo,
+			tracking_number: this.state.trackingNo,
+			carrier: this.state.carrier,
+			alert_updates: this.state.tracking
+		};
+
+		$.ajax({
+			url: 'packages',
+			type: 'POST',
+			dataType: 'json',
+			data: {package: packageData},
+			success: function (data) {
+				this.setState({ modalOpen: true, packageId: data.package_id });
+			}.bind(this),
+			error: function (data) {
+				console.log("Failed");
+			}
+		});
 	},
 
 	verifyPin: function () {
-		var packageData = {
-			phone_number: this.state.phoneNo,
-			tracking_number: this.state.shipmentNo,
-			pin: this.state.pin
-		};
+		var packageData = { pin: this.state.pin };
 
 		$.ajax({
 			url: 'packages/' + this.state.packageId,
@@ -167,7 +198,26 @@ var Form = React.createClass({
   },
 
 	submitText: function () {
-		return (this.state.tracking ? "Find & Track Package" : "Find Package");
+		return (this.state.phoneNo === "" ? "Find Package" : "Find & Track Package");
+	},
+
+	submitDisabled: function() {
+		if (this.state.carrier === "") {
+			return true;
+		} else if (this.state.trackingNo === "") {
+			return true;
+		} else if (this.state.phoneNo === "") {
+			return false;
+		} else {
+			return !this.validPhoneNo();
+		}
+	},
+
+	validPhoneNo: function() {
+		if (this.state.phoneNo.length !== 10) {
+			return false;
+		}
+		return this.state.phoneNo.match(/\d{10}/) !== null;
 	},
 
 	render: function  () {
@@ -180,31 +230,25 @@ var Form = React.createClass({
 				<Input placeholder="Enter Tracking Number"
 					type="text"
 					buttonAfter={this.carrierDropdown()}
-					valueLink={this.linkState('shipmentNo')}/>
+					valueLink={this.linkState('trackingNo')}/>
 
-				<Button block onClick={this.toggleTracking}>
-          Get SMS Updates
-        </Button>
+    		<Well>
+					<h4>Get SMS Updates (optional)</h4>
+    			<Input placeholder="Enter Phone Number"
+          	type="text"
+          	valueLink={this.linkState('phoneNo')}/>
 
-        <Collapse in={this.state.tracking}>
-        	<div>
-        		<Well>
-        			<Input placeholder="Enter Phone Number (optional)"
-		          	type="text"
-		          	valueLink={this.linkState('phoneNo')}/>
-
-			        <Input type="checkbox"
-			        	className="active"
-			        	label="Keep me updated along the way"
-			        	help="Leave this unchecked if you want to only be notified upon arrival"
-			        	valueLink={this.linkState('receiveUpdates')}/>
-        		</Well>
-        	</div>
-        </Collapse>
+	        <Input type="checkbox"
+	        	className="active"
+	        	label="Keep me updated along the way"
+	        	help="Leave this unchecked if you want to only be notified upon arrival"
+	        	valueLink={this.linkState('receiveUpdates')}/>
+    		</Well>
 
         <ButtonInput type="submit" block
 					bsStyle="primary"
-					value={this.submitText()}/>
+					value={this.submitText()}
+					disabled={this.submitDisabled()}/>
 
 				{this.renderModal()}
 
