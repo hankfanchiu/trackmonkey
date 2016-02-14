@@ -1,6 +1,6 @@
 class PackagesController < ApplicationController
   def index
-    tracking = params[:tracking_number]
+    tracking, carrier = params[:tracking_number]
     carrier = params[:carrier]
 
     url = URI.parse("https://api.goshippo.com/v1/tracks/#{carrier}/#{tracking}/")
@@ -16,25 +16,26 @@ class PackagesController < ApplicationController
   end
 
   def new
-    @phone_number = Package.new
+    @package = Package.new
   end
 
   def create
-    @phone_number = Package.new(package_params)
-    if @phone_number.generate_pin
-      @phone_number.send_pin
+    if Package.find_by(package_params)
+      render json: { status: :error, message: "Already tracking package" }
+    else
+      @package = Package.new(package_params)
+      @package.generate_pin
+      @package.send_pin
 
       respond_to do |format|
         format.js # render app/views/phone_numbers/create.js.erb
       end
-    else
-      render json: { status: :error }
     end
   end
 
-  def verify
-    @phone_number = Package.find_by(phone_number: params[:hidden_phone_number])
-    @phone_number.verify(params[:pin])
+  def update
+    @package = Package.find_by(phone_number: params[:hidden_phone_number])
+    @package.verify(params[:pin])
 
     respond_to do |format|
       format.js
