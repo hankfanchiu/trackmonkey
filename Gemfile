@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.2.4'
-
 gem 'twilio-ruby', '~> 4.1.0'
 gem 'pry-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -33,7 +31,6 @@ gem 'rails_12factor', group: :production
 gem 'newrelic_rpm'
 # Rack Timeout to abort requests that take too long
 gem "rack-timeout"
-
 
 # Use Puma as the app server
 gem 'puma'

@@ -54,7 +54,7 @@ var Form = React.createClass({
 		} else {
 			return this.carriers[this.state.carrier];
 		}
-	}
+	},
 
 	carrierDropdown: function () {
 		var carrierOptions = Object.keys(this.carriers).map(function(carrier){
