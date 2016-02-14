@@ -5,5 +5,7 @@ class WebhooksController < ApplicationController
     tracking = params[:tracking]
 
     Package.send_updates(tracking)
+
+    render json: { test: "test", status: :ok }
   end
 end
