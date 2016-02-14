@@ -117,7 +117,11 @@ var Form = React.createClass({
 	},
 
 	verifyPin: function () {
-		var packageData = { pin: this.state.pin };
+		var packageData = {
+			tracking_number: this.state.trackingNo,
+			carrier: this.state.carrier,
+			pin: this.state.pin
+		};
 
 		$.ajax({
 			url: 'packages/' + this.state.packageId,

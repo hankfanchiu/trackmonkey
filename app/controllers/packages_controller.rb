@@ -63,7 +63,7 @@ class PackagesController < ApplicationController
       request["Authorization"] = "ShippoToken #{ENV["SHIPPO_API_KEY"]}"
       request.set_form_data(
         tracking_number: package_params[:tracking_number],
-        carrier: package_params[:carrier]
+        carrier: params[:package][:carrier]
       )
 
       http.request(request)
