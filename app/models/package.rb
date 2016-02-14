@@ -30,14 +30,17 @@ class Package < ActiveRecord::Base
   validates_presence_of :tracking_number
   validates_uniqueness_of :phone_number, { scope: :tracking_number }
 
-  def self.send_updates(tracking_number, tracking_status, carrier)
-    packages = self.where(verified: true, tracking_number: tracking_number)
-    url = "http://localhost:3000/packages?tracking_number=#{tracking_number}&carrier=#{carrier}"
+  def self.send_batch_updates(tracking_number, tracking_status, carrier)
+    packages = self.where(verified: true)
+      .where(tracking_number: tracking_number)
+
+    status = tracking_status["status"]
+    url = "http://trackmonkey.herokuapp.com/#tracking/#{carrier}___#{tracking_number}"
 
     packages.each do |package|
       TwilioClient.instance.send_sms(
         package.phone_number,
-        "The status of your package (tracking number #{tracking_number}) has been updated to #{tracking_status}. See more details here: #{url}"
+        "The status of your package (tracking number #{tracking_number}) has been updated to #{status}. See more details here: #{url}"
       )
     end
   end
@@ -53,5 +56,18 @@ class Package < ActiveRecord::Base
 
   def verify(entered_pin)
     update_attributes(verified: true) if self.pin == entered_pin
+  end
+
+  def send_sms_update(shippo_tracking_json)
+    shippo_update_object = JSON.parse(shippo_tracking_json)
+    tracking_number = shippo_update_object["tracking_number"]
+    status = shippo_update_object["tracking_status"]["status"]
+    carrier = shippo_update_object["carrier"]
+    url = "http://trackmonkey.herokuapp.com/#tracking/#{carrier}___#{tracking_number}"
+
+    TwilioClient.instance.send_sms(
+      self.phone_number,
+      "TrackMonkey package (tracking number #{tracking_number}) status: #{status}. See more details here: #{url}"
+    )
   end
 end

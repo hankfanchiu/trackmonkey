@@ -2,11 +2,8 @@ var React = require('react');
 var MapStyle = require('./mapstyle.js');
 
 var Map = React.createClass ({
-
   getInitialState: function() {
-    return {
-			markers: ''
-		}
+    return { markers: '' };
   },
 
   componentDidMount: function(){
@@ -28,15 +25,12 @@ var Map = React.createClass ({
      var addresses = this.createAddressStrings();
 		 var map = this.map;
 		 var markerList = [];
-
      var that = this;
-
-     console.log(addresses);
 
      var genMarker = function (i) {
        if (i < addresses.length) {
           $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[i]+'&sensor=false', null, function (data) {
-            var p = data.results[0].geometry.location
+            var p = data.results[0].geometry.location;
             var iconUrl = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
 
             if (i === 0){
@@ -47,15 +41,16 @@ var Map = React.createClass ({
 
             var latlng = new google.maps.LatLng(p.lat, p.lng);
             var marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                icon: iconUrl
+              position: latlng,
+              map: map,
+              icon: iconUrl
             });
+
             if (markerList.indexOf(marker) == -1) {
              markerList.push(marker);
             }
 
-            genMarker(i + 1)
+            genMarker(i + 1);
           });
 
        } else {
@@ -107,23 +102,27 @@ var Map = React.createClass ({
 			eventAddress["location"] = trackingEvent["location"];
 	  	addresses.unshift(eventAddress);
 	  });
+
 	  return addresses;
   },
 
   createAddressStrings: function () {
     var addresses = this.getEventAddresses();
-        addressStrings = [];
+    var addressStrings = [];
+    var eventCurrent;
+    var tempString;
 
     for (var i = 0; i < addresses.length; i++) {
-			var eventCurrent = addresses[i]["location"];
-			var tempString = [];
-      for (var prop in eventCurrent) {
+			eventCurrent = addresses[i]["location"];
+			tempString = [];
 
+      for (var prop in eventCurrent) {
         tempString.push(eventCurrent[prop]);
       }
+
       addressStrings.push(tempString.join(' '));
-      tempString = '';
     }
+
     return addressStrings;
   },
 
@@ -138,11 +137,8 @@ var Map = React.createClass ({
 	},
 
   render: function () {
-    return (
-      <div className="map" ref="map"/>
-    );
+    return <div className="map" ref="map"/>;
   }
-
 });
 
 module.exports = Map;
