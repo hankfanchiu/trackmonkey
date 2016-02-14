@@ -1,5 +1,5 @@
 var React = require('react'),
-	ReactDOM = require('react-dom')
+	ReactDOM = require('react-dom'),
 	hashHistory = React.hashHistory;
 
 var ReactRouter = require('react-router'),
@@ -29,12 +29,9 @@ var routes = (
 	</Route>
 );
 
-
 document.addEventListener("DOMContentLoaded", function () {
-
   ReactDOM.render(
-	<Router>{routes}</Router>,
+		<Router>{routes}</Router>,
     document.getElementById('root')
   );
 });
-		

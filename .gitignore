@@ -13,6 +13,7 @@
 /tmp
 .env
 
-* Ignore node_modules and bundle.js
+* Ignore node_modules and bundle.js.
 /node_modules
 bundle.js
+bundle.js.map
