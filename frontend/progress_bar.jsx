@@ -19,7 +19,7 @@ var ProgressBar = React.createClass({
       eventDetails["status_details"] = trackingEvent["status_details"];
       eventDetails["location"] = trackingEvent["location"];
 
-      historyItems.push(eventDetails);
+      historyItems.unshift(eventDetails);
    	});
 
     return historyItems;
