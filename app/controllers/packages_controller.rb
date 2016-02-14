@@ -24,9 +24,9 @@ class PackagesController < ApplicationController
       shippo_update_string = request_shippo_updates
       shippo_update_object = JSON.parse(shippo_update_string)
       Package.send_updates(
-        shippo_update_object.tracking_number,
-        shippo_update_object.tracking_status,
-        shippo_update_object.carrier
+        shippo_update_object["tracking_number"],
+        shippo_update_object["tracking_status"],
+        shippo_update_object["carrier"]
       )
       render json: { tracking: request_shippo_updates }
     else
