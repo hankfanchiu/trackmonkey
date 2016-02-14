@@ -40,9 +40,9 @@ var ProgressBar = React.createClass({
         <li className="completed" key={i}>
           <span className="bubble"></span>
           <span className="stacked-text">
-              <span>{eventCurrent["status"]}</span><br/>
+              <span><i>{eventCurrent["status"]}</i></span><br/><br/>
               <span>{eventCurrent["status_details"]}</span><br/>
-              <span>{eventLocation}</span>
+              <span><b>{eventLocation}</b></span>
           </span>
         </li>
       );

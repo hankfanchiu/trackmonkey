@@ -15,7 +15,7 @@ var Form = React.createClass({
 
 	getInitialState: function  () {
 		return {
-			tracking: false,
+			tracking: true,
 			carrier: "",
 			shipmentNo: "",
 			phoneNo: "",
@@ -173,19 +173,21 @@ var Form = React.createClass({
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<Input placeholder="Enter Shipment Number"
+				<h1>Shitpro</h1>
+
+				<Input placeholder="Enter Tracking Number"
 					type="text"
 					buttonAfter={this.carrierDropdown()}
 					valueLink={this.linkState('shipmentNo')}/>
 
 				<Button block onClick={this.toggleTracking}>
-          Track Package
+          Get SMS Updates
         </Button>
 
         <Collapse in={this.state.tracking}>
         	<div>
         		<Well>
-        			<Input placeholder="Enter Phone Number"
+        			<Input placeholder="Enter Phone Number (optional)"
 		          	type="text"
 		          	valueLink={this.linkState('phoneNo')}/>
 
@@ -197,8 +199,6 @@ var Form = React.createClass({
         		</Well>
         	</div>
         </Collapse>
-
-        <br/>
 
         <ButtonInput type="submit" block
 					bsStyle="primary"
