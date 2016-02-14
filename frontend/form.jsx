@@ -1,6 +1,6 @@
 var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
-
+var browserHistory = require('react-router').browserHistory;
 var Input = require('react-bootstrap').Input;
 var ButtonInput = require('react-bootstrap').ButtonInput;
 var DropdownButton = require('react-bootstrap').DropdownButton;
@@ -8,6 +8,7 @@ var MenuItem = require('react-bootstrap').MenuItem;
 var Collapse = require('react-bootstrap').Collapse;
 var Well = require('react-bootstrap').Well;
 var Button = require('react-bootstrap').Button;
+var Modal = require('react-bootstrap').Modal;
 
 var Form = React.createClass({
 	mixins: [LinkedStateMixin],
@@ -18,17 +19,21 @@ var Form = React.createClass({
 			carrier: "",
 			shipmentNo: "",
 			phoneNo: "",
-			receiveUpdates: true
+			receiveUpdates: true,
+			modalOpen: false,
+			packageId: "",
+			pin: ""
 		};
 	},
 
 	toggleCarrier: function (e, carrier) {
-		e.preventDefault()
+		e.preventDefault();
 
 		this.setState({ carrier: carrier });
 	},
 
 	carriers: {
+		ups: "UPS",
 		usps: "USPS",
 		fedex: "FedEx",
 		dhl_express: "DHL Express",
@@ -37,11 +42,64 @@ var Form = React.createClass({
 		modal_relay: "Modal Relay"
 	},
 
-	handleSubmit: function (e){
+	contextTypes: {
+    router: React.PropTypes.func.isRequired
+  },
+
+	handleSubmit: function (e) {
 		e.preventDefault();
 
+		var packageData = {
+			phone_number: this.state.phoneNo,
+			tracking_number: this.state.shipmentNo,
+			carrier: this.state.carrier,
+			alert_updates: this.state.tracking
+		};
+
+		if (this.state.phoneNo !== "") {
+			$.ajax({
+				url: 'packages',
+				type: 'POST',
+				dataType: 'json',
+				data: {package: packageData},
+				success: function (data) {
+					console.log(data);
+					this.setState({ modalOpen: true, packageId: data.package_id });
+				}.bind(this),
+				error: function (data) {
+					console.log(data);
+					console.log("Failed");
+				}
+			})
+		} else {
+			this.redirectToMap();
+		}
+	},
+
+	redirectToMap: function () {
 		var url = "/tracking/" + this.state.carrier + "___" + this.state.shipmentNo;
 		this.context.router.push(url);
+	},
+
+	verifyPin: function () {
+		var packageData = {
+			phone_number: this.state.phoneNo,
+			tracking_number: this.state.shipmentNo,
+			pin: this.state.pin
+		};
+
+		$.ajax({
+			url: 'packages/' + this.state.packageId,
+			type: 'PATCH',
+			dataType: 'json',
+			data: {package: packageData},
+			success: function () {
+				this.redirectToMap();
+			}.bind(this),
+			error: function (data) {
+				console.log("Failed");
+			}
+		});
 	},
 
 	toggleTracking: function () {
@@ -71,9 +129,42 @@ var Form = React.createClass({
 				onSelect={this.toggleCarrier}>
 
 				{carrierOptions}
+
 			</DropdownButton>
 		);
 	},
+
+	renderModal: function () {
+    return (
+      <Modal show={this.state.modalOpen}
+        onHide={this.closeModal}
+				bsSize="small"
+				aria-labelledby="contained-modal-title-sm">
+
+				<Modal.Header closeButton>
+					<Modal.Title>Enter your PIN</Modal.Title>
+				</Modal.Header>
+
+				<Modal.Body>
+					<Input placeholder="PIN #"
+						type="text"
+						valueLink={this.linkState("pin")}/>
+
+					<Button block onClick={this.verifyPin}>
+						Submit
+					</Button>
+				</Modal.Body>
+      </Modal>
+    );
+  },
+
+  openModal: function() {
+    this.setState({ modalOpen: true });
+  },
+
+  closeModal: function() {
+    this.setState({ modalOpen: false });
+  },
 
 	submitText: function () {
 		return (this.state.tracking ? "Find & Track Package" : "Find Package");
@@ -84,7 +175,7 @@ var Form = React.createClass({
 			<form onSubmit={this.handleSubmit}>
 				<Input placeholder="Enter Shipment Number"
 					type="text"
-					buttonAfter={this.carrierDropdown}
+					buttonAfter={this.carrierDropdown()}
 					valueLink={this.linkState('shipmentNo')}/>
 
 				<Button block onClick={this.toggleTracking}>
@@ -112,25 +203,13 @@ var Form = React.createClass({
         <ButtonInput type="submit" block
 					bsStyle="primary"
 					value={this.submitText()}/>
+
+				{this.renderModal()}
+
+				<span>CC272479357TW</span>
 			</form>
-		)
+		);
 	}
 });
 
 module.exports = Form;
-
-// <div className="input-group">
- //      <input type="text" className="form-control" placeholder="Tracking Number" aria-label="..."/>
- //      <div className="input-group-btn">
- //        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Carrier<span className="caret"></span></button>
- //        <ul className="dropdown-menu dropdown-menu-right">
- //          <li><a href="#">Select Carrier</a></li>
- //          <li><a href="#">USPS</a></li>
- //          <li><a href="#">Fedex</a></li>
- //          <li><a href="#">DHL Express</a></li>
- //          <li><a href="#">Canada Post</a></li>
- //          <li><a href="#">Lasership</a></li>
- //          <li><a href="#">Mondial Relay</a></li>
- //        </ul>
- //      </div>
- //    </div>

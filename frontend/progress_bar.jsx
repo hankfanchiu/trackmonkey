@@ -37,7 +37,7 @@ var ProgressBar = React.createClass({
         // eventDate = new Date(eventCurrent["date"]);
 
       tempHTMLEl = (
-        <li className="completed">
+        <li className="completed" key={i}>
           <span className="bubble"></span>
           <span className="stacked-text">
               <span>{eventCurrent["status"]}</span><br/>
