@@ -35,12 +35,12 @@ class PackagesController < ApplicationController
 
   def package_params
     params.require(:package)
-      .permit(:phone_number, :tracking_number, :carrier, :pin)
+      .permit(:phone_number, :tracking_number, :pin, :alert_updates)
   end
 
   def get_shippo_tracking
     tracking = package_params[:tracking_number]
-    carrier = package_params[:carrier]
+    carrier = params[:package][:carrier]
 
     url = URI.parse("https://api.goshippo.com/v1/tracks/#{carrier}/#{tracking}/")
     http = Net::HTTP.new(url.host, url.port)
