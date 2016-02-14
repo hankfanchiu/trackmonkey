@@ -10,6 +10,6 @@ class WebhooksController < ApplicationController
 
     Package.send_updates(tracking_number, tracking_status, carrier)
 
-    respond_with(status: :ok)
+    render json: {}, status: :ok
   end
 end
