@@ -1,12 +1,19 @@
 var React = require('react');
+var ListGroup = require('react-bootstrap').ListGroup;
+var ListGroupItem = require('react-bootstrap').ListGroupItem;
+var Panel = require('react-bootstrap').Panel;
 
 var ProgressBar = React.createClass({
   getInitialState: function () {
-    return { trackingHTMLEls: [] };
+    return {
+      firstHTMLEl: [],
+      trackingHTMLEls: []
+    };
   },
 
   componentDidMount: function() {
     this.setState({ trackingHTMLEls: this.createHTMLEls() });
+    this.setState({ firstHTMLEl: this.createFirstHTMLEl() });
   },
 
   generateHistory: function () {
@@ -18,6 +25,7 @@ var ProgressBar = React.createClass({
       eventDetails["status"] = trackingEvent["status"];
       eventDetails["status_details"] = trackingEvent["status_details"];
       eventDetails["location"] = trackingEvent["location"];
+      eventDetails["status_date"] = trackingEvent["status_date"];
 
       historyItems.unshift(eventDetails);
    	});
@@ -28,29 +36,45 @@ var ProgressBar = React.createClass({
   createHTMLEls: function () {
     var historyHTMLEls = [];
     var historyItems = this.generateHistory();
-    var eventCurrent;
-    var eventLocation;
 
-    for (var i = 0; i < historyItems.length; i++) {
-      eventCurrent = historyItems[i];
-      eventLocation = this.generateHTMLLocation(eventCurrent["location"]);
-        // eventDate = new Date(eventCurrent["date"]);
+    for (var i = 1; i < historyItems.length; i++) {
+      var eventCurrent = historyItems[i];
+      var eventLocation = this.generateHTMLLocation(eventCurrent["location"]);
+      var eventDate = (new Date(eventCurrent["status_date"])).toGMTString();
 
-      tempHTMLEl = (
-        <li className="completed" key={i}>
+      var tempHTMLEl = (
+        <ListGroupItem className="completed" key={i}>
           <span className="bubble"></span>
           <span className="stacked-text">
-              <span><i>{eventCurrent["status"]}</i></span><br/><br/>
+              <span><i>{eventCurrent["status"]} - {eventDate}</i></span><br/><br/>
               <span>{eventCurrent["status_details"]}</span><br/>
-              <span><b>{eventLocation}</b></span>
+              <span><b>{eventLocation}</b></span><br/><br/>
           </span>
-        </li>
+        </ListGroupItem>
       );
-
       historyHTMLEls.push(tempHTMLEl);
     }
 
     return historyHTMLEls;
+  },
+
+  createFirstHTMLEl: function () {
+    var firstHTMLEl = [],
+        firstItem = this.generateHistory()[0];
+        firstItemLocation = this.generateHTMLLocation(firstItem["location"]);
+        firstItemDate = (new Date(firstItem["status_date"])).toGMTString();
+
+        var tempHTMLEl = (
+            <span className="stacked-text" key={1}>
+                <span><i>{firstItem["status"]} - {firstItemDate}</i></span><br/><br/>
+                <span>{firstItem["status_details"]}</span><br/>
+                <span><b>{firstItemLocation}</b></span><br/><br/>
+
+                <div className="arrow"><i className="fa fa-arrow-down"></i></div>
+            </span>
+        );
+      firstHTMLEl.push(tempHTMLEl)
+      return firstHTMLEl;
   },
 
   generateHTMLLocation: function (location) {
@@ -65,9 +89,11 @@ var ProgressBar = React.createClass({
 
   render: function () {
     return (
-      <ul className="progress-indicator nocenter stepped stacked">
-        {this.state.trackingHTMLEls}
-      </ul>
+      <Panel collapsible defaultCollapsed header={this.state.firstHTMLEl}>
+        <ListGroup className="location-list" fill>
+          {this.state.trackingHTMLEls}
+        </ListGroup>
+      </Panel>
     );
   }
 });
