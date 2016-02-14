@@ -21,6 +21,12 @@ class PackagesController < ApplicationController
     package = Package.find(params[:id])
 
     if package.verify(package_params[:pin])
+      shippo_update = request_shippo_updates
+      Package.send_updates(
+        shippo_update.tracking_number,
+        shippo_update.tracking_status,
+        shippo_update.carrier
+      )
       render json: { tracking: request_shippo_updates }
     else
       render json: { error: "Incorrect pin" }
