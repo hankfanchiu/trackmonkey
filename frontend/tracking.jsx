@@ -1,5 +1,4 @@
 var React = require('react');
-
 var Map = require('./map.jsx');
 var ProgressBar = require('./progress_bar.jsx');
 
@@ -20,7 +19,7 @@ var Tracking = React.createClass({
 	},
 
 	getShipmentData: function (carrier, shippingNo) {
-		var url = "http://hackers-api.goshippo.com/v1/tracks/" + carrier  + "/" + shippingNo + "/";
+		var url = "http://hackers-api.goshippo.com/v1/tracks/" + carrier + "/" + shippingNo + "/";
 
 		$.get(url, function(data){
 			this.setState({ shipment: data });
@@ -33,7 +32,7 @@ var Tracking = React.createClass({
 		return (
 			<div>
 				<Map shipment={this.state.shipment}/>
-				
+
 				<ProgressBar shipment={this.state.shipment}/>
 			</div>
 		);

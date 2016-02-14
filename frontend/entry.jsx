@@ -1,11 +1,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var hashHistory = React.hashHistory;
-
-var ReactRouter = require('react-router');
-var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var IndexRoute = ReactRouter.IndexRoute;
+var hashHistory = require('react-router').hashHistory;
+var Router = require('react-router').Router;
+var Route = require('react-router').Route;
+var IndexRoute = require('react-router').IndexRoute;
 
 var Form = require('./form.jsx');
 var Footer = require('./footer.jsx');
@@ -21,16 +19,15 @@ var App = React.createClass({
 	}
 });
 
-var routes = (
-	<Route path="/" history={hashHistory} component={App}>
-		<IndexRoute component={Form}/>
-		<Route path="tracking/:shipment" component={Tracking}/>
-	</Route>
+var router = (
+	<Router>
+		<Route path="/" history={hashHistory} component={App}>
+			<IndexRoute component={Form}/>
+			<Route path="tracking/:shipment" component={Tracking}/>
+		</Route>
+	</Router>
 );
 
 document.addEventListener("DOMContentLoaded", function () {
-  ReactDOM.render(
-		<Router>{routes}</Router>,
-    document.getElementById('root')
-  );
+  ReactDOM.render(router, document.getElementById('root'));
 });

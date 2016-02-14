@@ -1,10 +1,8 @@
 var React = require("react");
-// var History = require("react-router").History;
 
 var Footer = React.createClass({
   goToHome: function () {
-    // this.history.pushState(null, "/");
-    console.log("go home clicked")
+    console.log("go home clicked");
   },
 
   render: function () {
