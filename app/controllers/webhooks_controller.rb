@@ -6,10 +6,11 @@ class WebhooksController < ApplicationController
     tracking_status = params[:tracking_status]
     carrier = params[:carrier]
 
-    return unless tracking_number && tracking_status
-
-    Package.send_updates(tracking_number, tracking_status, carrier)
-
-    render json: {}, status: :ok
+    if tracking_number && tracking_status != "null"
+      Package.send_updates(tracking_number, tracking_status, carrier)
+      render json: {}, status: :ok
+    else
+      render json: {}, status: :unprocessable_entity
+    end
   end
 end
