@@ -1,6 +1,6 @@
 class PackagesController < ApplicationController
   def index
-    tracking, carrier = params[:tracking_number]
+    tracking = params[:tracking_number]
     carrier = params[:carrier]
 
     url = URI.parse("https://api.goshippo.com/v1/tracks/#{carrier}/#{tracking}/")
