@@ -173,7 +173,7 @@ var Form = React.createClass({
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<h1 className="title">Trackmonkey</h1>
+				<h1 className="title">TRACKMONKEY</h1>
 
 		  	<img src="http://monkeybusinessinstitute.com/images/hanging-monkey.png"></img><br/><br/>
 
