@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20160213204031) do
   enable_extension "plpgsql"
 
   create_table "packages", force: :cascade do |t|
+
     t.string   "phone_number",                    null: false
     t.string   "pin",                             null: false
     t.boolean  "verified",        default: false, null: false

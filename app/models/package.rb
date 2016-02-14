@@ -3,6 +3,7 @@
 # Table name: packages
 #
 #  id            :integer          not null, primary key
+
 #  phone_number  :string           not null
 #  pin           :string           not null
 #  verified      :boolean          default(FALSE), not null

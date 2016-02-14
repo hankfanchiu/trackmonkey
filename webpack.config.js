@@ -28,5 +28,15 @@ module.exports = {
         loader: "node-loader"
       }
     ]
-  }
+  },
+  plugins: [
+        function() {
+            this.plugin('watch-run', function(watching, callback) {
+                console.log("\n\n-----------------------------------------");
+                console.log('Compiled at: ' + new Date());
+                console.log();
+                callback();
+            })
+        }
+    ]
 };

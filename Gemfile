@@ -32,6 +32,7 @@ gem 'newrelic_rpm'
 # Rack Timeout to abort requests that take too long
 gem "rack-timeout"
 
+
 # Use Puma as the app server
 gem 'puma'
 
@@ -52,5 +53,6 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
   gem 'annotate'
 end
