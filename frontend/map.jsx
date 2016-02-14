@@ -1,4 +1,5 @@
 var React = require('react');
+var MapStyle = require('./mapstyle.js');
 
 var Map = React.createClass ({
 
@@ -20,9 +21,8 @@ var Map = React.createClass ({
 			 center: {lat: 37.7758, lng: -122.435},
 			 zoom: 12
      };
-
-     this.setState({map: new google.maps.Map(mapDOMNode, mapOptions)});
 		 this.map = new google.maps.Map(mapDOMNode, mapOptions);
+     this.map.setOptions({styles: MapStyle});
    },
 
    addMarkers: function() {
