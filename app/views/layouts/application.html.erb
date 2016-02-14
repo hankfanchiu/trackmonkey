@@ -2,12 +2,19 @@
 <html>
 <head>
   <title>PackageTracker</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css", media: 'all', 'data-turbolinks-track' => true %>
 
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+
+  <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
+    media: 'all', 'data-turbolinks-track' => true %>
+
+  <%= javascript_include_tag 'application', cache: true %>
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    
   <%= csrf_meta_tags %>
 </head>
 <body>
