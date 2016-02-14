@@ -1,13 +1,15 @@
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
-  
+
   def create
-    p params
+    tracking_number = params[:tracking_number]
+    tracking_status = params[:tracking_status]
+    carrier = params[:carrier]
 
-    tracking = params[:tracking]
+    return unless tracking_number && tracking_status
 
-    Package.send_updates(tracking)
+    Package.send_updates(tracking_number, tracking_status, carrier)
 
-    render json: { test: "test", status: :ok }
+    respond_with(status: :ok)
   end
 end
