@@ -23,11 +23,20 @@ var Tracking = React.createClass({
 		}.bind(this));
 	},
 
+	contextTypes: {
+    router: React.PropTypes.func.isRequired
+  },
+
+	redirectToHome: function () {
+		this.context.router.push("/");
+	},
+
 	render: function () {
 		if (!this.state.shipment) { return <p></p>; }
 
 		return (
 			<div>
+				<h1 className="title" onClick={this.redirectToHome}>TRACKMONKEY</h1>
 				<Map shipment={this.state.shipment}/>
 				<ProgressBar shipment={this.state.shipment}/>
 			</div>
