@@ -157,7 +157,8 @@ var Form = React.createClass({
 		return (
 			<DropdownButton title={this.dropdownTitle()}
 				id="input-dropdown-addon"
-				onSelect={this.toggleCarrier}>
+				onSelect={this.toggleCarrier}
+				pullRight>
 
 				{carrierOptions}
 
