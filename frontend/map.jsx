@@ -16,7 +16,6 @@ var Map = React.createClass ({
    createMap: function() {
      var mapDOMNode = this.refs.map;
      var mapOptions = {
-	     scrollwheel: false,
 			 center: {lat: 37.7758, lng: -122.435},
 			 zoom: 12
      };
@@ -30,27 +29,34 @@ var Map = React.createClass ({
 		 var map = this.map;
 		 var markerList = [];
 
+     var that = this;
 
-     for (var i = 0; i < addresses.length; i++) {
-			 var that = this;
-       $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[i]+'&sensor=false', null, function (data) {
-           var p = data.results[0].geometry.location
-           var latlng = new google.maps.LatLng(p.lat, p.lng);
-           var marker = new google.maps.Marker({
-               position: latlng,
-               map: map
-					 });
-					 if (markerList.indexOf(marker) == -1) {
-						 markerList.push(marker);
-					 }
+     var genMarker = function (i) {
+       if (i < addresses.length) {
+          $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[i]+'&sensor=false', null, function (data) {
+            var p = data.results[0].geometry.location
+            var latlng = new google.maps.LatLng(p.lat, p.lng);
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+            });
+            if (markerList.indexOf(marker) == -1) {
+             markerList.push(marker);
+            }
 
-					 if (markerList.length === addresses.length) {
-						 that.setState({markers: markerList});
-						 that.fitBounds();
-						 that.createPolyLines();
-					 }
-         });
-      };
+            genMarker(i + 1)
+          });
+
+       } else {
+          that.setState({markers: markerList});
+          that.fitBounds();
+          that.createPolyLines();
+       }
+     }
+
+     genMarker(0);
+
+
    },
 
    fitBounds: function() {
@@ -82,15 +88,15 @@ var Map = React.createClass ({
   },
 
  	getEventAddresses: function () {
-	   var addresses = [];
-	   var eventAddress;
+	  var addresses = [];
+	  var eventAddress;
 
-		   this.props.shipment["tracking_history"].forEach(function(trackingEvent){
-		   eventAddress = {};
-			 eventAddress["location"] = trackingEvent["location"];
-	  	 addresses.unshift(eventAddress);
-	  	 });
-	   return addresses;
+		this.props.shipment["tracking_history"].forEach(function(trackingEvent){
+		  eventAddress = {};
+			eventAddress["location"] = trackingEvent["location"];
+	  	addresses.unshift(eventAddress);
+	  });
+	  return addresses;
   },
 
   createAddressStrings: function () {

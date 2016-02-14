@@ -2,9 +2,7 @@ class PackagesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    tracking = get_shippo_tracking
-
-    render json: { tracking: tracking }
+    render json: { tracking: get_shippo_tracking }
   end
 
   def create
@@ -23,9 +21,7 @@ class PackagesController < ApplicationController
     package = Package.find(params[:id])
 
     if package.verify(package_params[:pin])
-      tracking = request_shippo_updates
-
-      render json: { tracking: tracking }
+      render json: { tracking: request_shippo_updates }
     else
       render json: { error: "Incorrect pin" }
     end
