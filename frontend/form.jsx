@@ -173,7 +173,9 @@ var Form = React.createClass({
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<h1>Shitpro</h1>
+				<h1 className="title">Trackmonkey</h1>
+
+		  	<img src="http://monkeybusinessinstitute.com/images/hanging-monkey.png"></img><br/><br/>
 
 				<Input placeholder="Enter Tracking Number"
 					type="text"
@@ -206,7 +208,6 @@ var Form = React.createClass({
 
 				{this.renderModal()}
 
-				<span>CC272479357TW</span>
 			</form>
 		);
 	}
