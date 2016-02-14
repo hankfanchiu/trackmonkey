@@ -13,8 +13,6 @@ var ProgressBar = React.createClass({
     var historyItems = [];
     var eventDetails;
 
-    console.log(this.props.shipment["tracking_history"]);
-
    	this.props.shipment["tracking_history"].forEach(function(trackingEvent){
       eventDetails = {};
       eventDetails["status"] = trackingEvent["status"];
@@ -23,9 +21,6 @@ var ProgressBar = React.createClass({
 
       historyItems.push(eventDetails);
    	});
-
-    console.log("genhistory items.length");
-    console.log(historyItems.length);
 
     return historyItems;
   },
@@ -54,9 +49,6 @@ var ProgressBar = React.createClass({
 
       historyHTMLEls.push(tempHTMLEl);
     }
-
-    console.log("createHTMLEls items.length");
-    console.log(historyHTMLEls.length);
 
     return historyHTMLEls;
   },

@@ -1,6 +1,5 @@
 var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var History = require('react-router').History;
 
 var Input = require('react-bootstrap').Input;
 var ButtonInput = require('react-bootstrap').ButtonInput;
@@ -11,7 +10,7 @@ var Well = require('react-bootstrap').Well;
 var Button = require('react-bootstrap').Button;
 
 var Form = React.createClass({
-	mixins: [LinkedStateMixin, History],
+	mixins: [LinkedStateMixin],
 
 	getInitialState: function  () {
 		return {
@@ -42,13 +41,22 @@ var Form = React.createClass({
 		e.preventDefault();
 
 		var url = "/tracking/" + this.state.carrier + "___" + this.state.shipmentNo;
-		this.history.push(url);
-		console.log(url);
+		this.context.router.push(url);
 	},
 
-	render: function  () {
-		var submitText = this.state.tracking ? "Find & Track Package" : "Find Package";
+	toggleTracking: function () {
+		this.setState({ tracking: !this.state.tracking });
+	},
 
+	dropdownTitle: function () {
+		if (this.state.carrier === "") {
+			return "Select Carrier";
+		} else {
+			return this.carriers[this.state.carrier];
+		}
+	}
+
+	carrierDropdown: function () {
 		var carrierOptions = Object.keys(this.carriers).map(function(carrier){
 			return (
 				<MenuItem eventKey={carrier} key={carrier}>
@@ -57,48 +65,53 @@ var Form = React.createClass({
 			);
 		}.bind(this));
 
-		var dropdownTitle = this.state.carrier === "" ? "Select Carrier" : this.carriers[this.state.carrier];
-
-		var carrierDropdown = (
-			<DropdownButton title={dropdownTitle}
+		return (
+			<DropdownButton title={this.dropdownTitle()}
 				id="input-dropdown-addon"
 				onSelect={this.toggleCarrier}>
 
 				{carrierOptions}
 			</DropdownButton>
 		);
+	},
 
+	submitText: function () {
+		return (this.state.tracking ? "Find & Track Package" : "Find Package");
+	},
+
+	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
 				<Input placeholder="Enter Shipment Number"
+					type="text"
+					buttonAfter={this.carrierDropdown}
+					valueLink={this.linkState('shipmentNo')}/>
+
+				<Button block onClick={this.toggleTracking}>
+          Track Package
+        </Button>
+
+        <Collapse in={this.state.tracking}>
+        	<div>
+        		<Well>
+        			<Input placeholder="Enter Phone Number"
 		          	type="text"
-		          	buttonAfter={carrierDropdown}
-		          	valueLink={this.linkState('shipmentNo')}/>
+		          	valueLink={this.linkState('phoneNo')}/>
 
-		        <Button block onClick={ ()=> this.setState({ tracking: !this.state.tracking })}>
-		          Track Package
-		        </Button>
+			        <Input type="checkbox"
+			        	className="active"
+			        	label="Keep me updated along the way"
+			        	help="Leave this unchecked if you want to only be notified upon arrival"
+			        	valueLink={this.linkState('receiveUpdates')}/>
+        		</Well>
+        	</div>
+        </Collapse>
 
-		        <Collapse in={this.state.tracking}>
-		        	<div>
-		        		<Well>
-		        			<Input
-								placeholder="Enter Phone Number"
-					          	type="text"
-					          	valueLink={this.linkState('phoneNo')}/>
-					        <Input
-					        	type="checkbox"
-					        	className="active"
-					        	label="Keep me updated along the way"
-					        	help="Leave this unchecked if you want to only be notified upon arrival"
-					        	valueLink={this.linkState('receiveUpdates')}/>
-		        		</Well>
-		        	</div>
-		        </Collapse>
+        <br/>
 
-		        <br/>
-
-		        <ButtonInput type="submit" bsStyle="primary" value={submitText} block/>
+        <ButtonInput type="submit" block
+					bsStyle="primary"
+					value={this.submitText()}/>
 			</form>
 		)
 	}
@@ -106,19 +119,18 @@ var Form = React.createClass({
 
 module.exports = Form;
 
-
-    // <div className="input-group">
-			 //      <input type="text" className="form-control" placeholder="Tracking Number" aria-label="..."/>
-			 //      <div className="input-group-btn">
-			 //        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Carrier<span className="caret"></span></button>
-			 //        <ul className="dropdown-menu dropdown-menu-right">
-			 //          <li><a href="#">Select Carrier</a></li>
-			 //          <li><a href="#">USPS</a></li>
-			 //          <li><a href="#">Fedex</a></li>
-			 //          <li><a href="#">DHL Express</a></li>
-			 //          <li><a href="#">Canada Post</a></li>
-			 //          <li><a href="#">Lasership</a></li>
-			 //          <li><a href="#">Mondial Relay</a></li>
-			 //        </ul>
-			 //      </div>
-			 //    </div>
+// <div className="input-group">
+ //      <input type="text" className="form-control" placeholder="Tracking Number" aria-label="..."/>
+ //      <div className="input-group-btn">
+ //        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Carrier<span className="caret"></span></button>
+ //        <ul className="dropdown-menu dropdown-menu-right">
+ //          <li><a href="#">Select Carrier</a></li>
+ //          <li><a href="#">USPS</a></li>
+ //          <li><a href="#">Fedex</a></li>
+ //          <li><a href="#">DHL Express</a></li>
+ //          <li><a href="#">Canada Post</a></li>
+ //          <li><a href="#">Lasership</a></li>
+ //          <li><a href="#">Mondial Relay</a></li>
+ //        </ul>
+ //      </div>
+ //    </div>

@@ -12,9 +12,6 @@ var Tracking = React.createClass({
 		var carrier = shipParams[0];
 		var shippingNo = shipParams[1];
 
-		console.log("carrier= " + shipParams[0]);
-		console.log("number= " + shipParams[1]);
-
 		this.getShipmentData(carrier, shippingNo);
 	},
 
@@ -32,7 +29,6 @@ var Tracking = React.createClass({
 		return (
 			<div>
 				<Map shipment={this.state.shipment}/>
-
 				<ProgressBar shipment={this.state.shipment}/>
 			</div>
 		);

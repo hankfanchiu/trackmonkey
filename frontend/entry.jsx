@@ -20,8 +20,8 @@ var App = React.createClass({
 });
 
 var router = (
-	<Router>
-		<Route path="/" history={hashHistory} component={App}>
+	<Router history={hashHistory}>
+		<Route path="/" component={App}>
 			<IndexRoute component={Form}/>
 			<Route path="tracking/:shipment" component={Tracking}/>
 		</Route>
