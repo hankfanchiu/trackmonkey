@@ -24,7 +24,7 @@ var Tracking = React.createClass({
 	},
 
 	render: function () {
-		if (!this.state.shipment) { return <p>loading</p>; }
+		if (!this.state.shipment) { return <p></p>; }
 
 		return (
 			<div>
