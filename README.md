@@ -10,7 +10,7 @@ The technical implementation and technologies used for TrackMonkey are detailed 
 
 ## History
 
-TrackMonkey was a product of the [DeveloperWeek 2016 Hackathon](http://www.developerweek.com/hackathon/) (February 13-14). It solved the [Shippo challenge](https://github.com/goshippo/devweek16-shippo-challenge/) and won the sponsored prize.
+TrackMonkey was a product of the [DeveloperWeek 2016 Hackathon](http://www.developerweek.com/hackathon/) (February 13-14), solving and winning the [Shippo challenge](https://github.com/goshippo/devweek16-shippo-challenge/).
 
 The project was designed and built by five full-stack software engineers:
 
