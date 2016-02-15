@@ -1,4 +1,5 @@
 var React = require('react');
+var browserHistory = require('react-router').browserHistory;
 var Map = require('./map.jsx');
 var ProgressBar = require('./progress_bar.jsx');
 
@@ -23,12 +24,8 @@ var Tracking = React.createClass({
 		}.bind(this));
 	},
 
-	contextTypes: {
-    router: React.PropTypes.func.isRequired
-  },
-
 	redirectToHome: function () {
-		this.context.router.push("/");
+		browserHistory.push("/");
 	},
 
 	render: function () {
@@ -36,7 +33,6 @@ var Tracking = React.createClass({
 
 		return (
 			<div>
-				<h1 className="title" onClick={this.redirectToHome}>TRACKMONKEY</h1>
 				<Map shipment={this.state.shipment}/>
 				<ProgressBar shipment={this.state.shipment}/>
 			</div>

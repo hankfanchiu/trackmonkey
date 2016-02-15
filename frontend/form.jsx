@@ -41,10 +41,6 @@ var Form = React.createClass({
 		mondial_relay: "Mondial Relay"
 	},
 
-	contextTypes: {
-    router: React.PropTypes.func.isRequired
-  },
-
 	handleSubmit: function (e) {
 		e.preventDefault();
 
@@ -53,7 +49,7 @@ var Form = React.createClass({
 
 	redirectToMap: function () {
 		var url = "/tracking/" + this.state.carrier + "___" + this.state.trackingNo;
-		this.context.router.push(url);
+		browserHistory.push(url);
 	},
 
 	getTracking: function () {
@@ -222,15 +218,15 @@ var Form = React.createClass({
 		if (this.state.phoneNo.length !== 10) {
 			return false;
 		}
-		return this.state.phoneNo.match(/\d{10}/) !== null;
+
+		return (this.state.phoneNo.match(/\d{10}/) !== null);
 	},
 
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<h1 className="title">TRACKMONKEY</h1>
-
-		  	<img src="http://monkeybusinessinstitute.com/images/hanging-monkey.png"></img><br/><br/>
+				<img src="http://monkeybusinessinstitute.com/images/hanging-monkey.png"></img>
+				<br/><br/>
 
 				<Input placeholder="Enter Tracking Number"
 					type="text"
