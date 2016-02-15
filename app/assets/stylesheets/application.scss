@@ -12,11 +12,51 @@
  */
 
 @import "bootstrap-sprockets";
-@import "progress_bar";
 @import "bootstrap";
-@import "footer";
 @import url("https://fonts.googleapis.com/css?family=Oxygen:400,700,300");
 @import url("https://fonts.googleapis.com/css?family=Fugaz+One");
+
+@media (min-width: 768px) {
+ .container {
+	 width: 500px;
+	 padding-top: 15vh;
+ }
+ h1 {
+	 font-size: 55px;
+	 text-align: center;
+ }
+}
+
+.monkey-logo {
+	text-align: center;
+}
+
+.monkey-logo img {
+	height: 30%;
+	width: 30%;
+}
+
+@media (min-width: 992px) {
+ .container {
+	 width: 500px;
+ }
+}
+@media (min-width: 1200px) {
+ .container {
+	 width: 500px;
+ }
+}
+
+@media screen {
+	.well {
+		padding: 15px;
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+	h1 {
+		text-align: center;
+	}
+}
 
 body {
 	margin: 0;
