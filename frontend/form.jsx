@@ -225,8 +225,10 @@ var Form = React.createClass({
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<img src="http://monkeybusinessinstitute.com/images/hanging-monkey.png"></img>
-				<br/><br/>
+				<div className="monkey-logo">
+					<img src="hanging-monkey.png"></img>
+				</div>
+				<br/>
 
 				<Input placeholder="Enter Tracking Number"
 					type="text"
