@@ -2,7 +2,16 @@
 #
 # Table name: packages
 #
-#  id            :integer          not null, primary key
+#  id              :integer          not null, primary key
+#  phone_number    :string           not null
+#  pin             :string           not null
+#  verified        :boolean          default(FALSE), not null
+#  tracking_number :string           not null
+#  alert_updates   :boolean          default(TRUE), not null
+#  alert_final     :boolean          default(TRUE), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 
 #  phone_number  :string           not null
 #  pin           :string           not null
@@ -35,7 +44,7 @@ class Package < ActiveRecord::Base
       .where(tracking_number: tracking_number)
 
     status = tracking_status["status"]
-    url = "http://trackmonkey.herokuapp.com/#tracking/#{carrier}___#{tracking_number}"
+    url = "http://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
 
     packages.each do |package|
       TwilioClient.instance.send_sms(
@@ -63,7 +72,7 @@ class Package < ActiveRecord::Base
     tracking_number = shippo_update_object["tracking_number"]
     status = shippo_update_object["tracking_status"]["status"]
     carrier = shippo_update_object["carrier"]
-    url = "http://trackmonkey.herokuapp.com/#tracking/#{carrier}___#{tracking_number}"
+    url = "http://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
 
     TwilioClient.instance.send_sms(
       self.phone_number,
