@@ -12,8 +12,10 @@ var ProgressBar = React.createClass({
   },
 
   componentDidMount: function() {
-    this.setState({ trackingHTMLEls: this.createHTMLEls() });
-    this.setState({ firstHTMLEl: this.createFirstHTMLEl() });
+    this.setState({
+      trackingHTMLEls: this.createHTMLEls(),
+      firstHTMLEl: this.createFirstHTMLEl()
+    });
   },
 
   generateHistory: function () {
@@ -46,12 +48,13 @@ var ProgressBar = React.createClass({
         <ListGroupItem className="completed" key={i}>
           <span className="bubble"></span>
           <span className="stacked-text">
-              <span><i>{eventCurrent["status"]} - {eventDate}</i></span><br/><br/>
-              <span>{eventCurrent["status_details"]}</span><br/>
-              <span><b>{eventLocation}</b></span><br/><br/>
+            <span><i>{eventCurrent["status"]} - {eventDate}</i></span><br/><br/>
+            <span>{eventCurrent["status_details"]}</span><br/>
+            <span><b>{eventLocation}</b></span><br/><br/>
           </span>
         </ListGroupItem>
       );
+
       historyHTMLEls.push(tempHTMLEl);
     }
 
@@ -59,22 +62,24 @@ var ProgressBar = React.createClass({
   },
 
   createFirstHTMLEl: function () {
-    var firstHTMLEl = [],
-        firstItem = this.generateHistory()[0];
-        firstItemLocation = this.generateHTMLLocation(firstItem["location"]);
-        firstItemDate = (new Date(firstItem["status_date"])).toGMTString();
+    var firstHTMLEl = [];
+    var firstItem = this.generateHistory()[0];
+    var firstItemLocation = this.generateHTMLLocation(firstItem["location"]);
+    var firstItemDate = (new Date(firstItem["status_date"])).toGMTString();
 
-        var tempHTMLEl = (
-            <span className="stacked-text" key={1}>
-                <span><i>{firstItem["status"]} - {firstItemDate}</i></span><br/><br/>
-                <span>{firstItem["status_details"]}</span><br/>
-                <span><b>{firstItemLocation}</b></span><br/><br/>
+    var tempHTMLEl = (
+      <span className="stacked-text" key={1}>
+        <span><i>{firstItem["status"]} - {firstItemDate}</i></span><br/><br/>
+        <span>{firstItem["status_details"]}</span><br/>
+        <span><b>{firstItemLocation}</b></span><br/><br/>
 
-                <div className="arrow"><i className="fa fa-arrow-down"></i></div>
-            </span>
-        );
-      firstHTMLEl.push(tempHTMLEl)
-      return firstHTMLEl;
+        <div className="arrow"><i className="fa fa-arrow-down"></i></div>
+      </span>
+    );
+
+    firstHTMLEl.push(tempHTMLEl);
+
+    return firstHTMLEl;
   },
 
   generateHTMLLocation: function (location) {
