@@ -50,11 +50,15 @@ var About = React.createClass({
           <h4>About</h4>
 
           <p>
-            Winning project of the DeveloperWeek 2016 Hackathon (February 13-14) Shippo Tracking API Challenge!
+            TrackMonkey is a mobile web application which allows users to keep track of their packages across multiple shipping carriers.
           </p>
 
           <p>
-            TrackMonkey is a mobile web application which allows users to keep track of their packages across multiple shipping carriers. Users can also register for text alert notifications for package updates.
+            Users can also register their phone numbers to receive SMS alert notifications for shipment tracking updates.
+          </p>
+
+          <p>
+            Winner of the DeveloperWeek 2016 Hackathon (February 13-14) Shippo Tracking API Challenge!
           </p>
         </Well>
 
