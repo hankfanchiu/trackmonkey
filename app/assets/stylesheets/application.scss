@@ -61,13 +61,18 @@
 	h1 {
 		text-align: center;
 	}
+  .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    opacity: 1;
+    color: #B8B8B8;
+    background-color: #266499;
+  }
 }
 
 body {
 	margin: 0;
 	padding: 0;
 	font-family: "Oxygen";
-	background: url('http://www.psdgraphics.com/file/paper-airplanes-background.jpg') no-repeat center center fixed;
+	background: url('paper-airplanes-background.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -133,4 +138,20 @@ a {
   color: white;
   font-weight: bold;
   font-size: 15px;
+}
+
+.about-page .well h4 {
+  text-align: center;
+  font-weight: bold;
+}
+
+.profile-pictures {
+  text-align: center;
+}
+
+.profile-pictures img {
+  height: 200px;
+  width: 200px;
+  padding: 10px;
+  border-radius: 50%;
 }

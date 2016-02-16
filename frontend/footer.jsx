@@ -6,6 +6,10 @@ var Footer = React.createClass({
     browserHistory.push("/");
   },
 
+  pushToAbout: function () {
+    browserHistory.push("/about");
+  },
+
   render: function () {
     return (
       <footer className="footer">
@@ -15,7 +19,7 @@ var Footer = React.createClass({
             |
             <a href="https://github.com/hankfanchiu/package-tracker" target="_blank">Github</a>
             |
-            <a href="#">About</a>
+            <a onClick={this.pushToAbout}>About</a>
             |
             <a href="mailto:fanchiu.hank@gmail.com">Contact</a>
         </p>
