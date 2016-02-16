@@ -6,6 +6,7 @@ var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
 
 var Header = require('./header.jsx');
+var Footer = require('./footer.jsx');
 var Form = require('./form.jsx');
 var Footer = require('./footer.jsx');
 var Tracking = require('./tracking.jsx');
@@ -15,8 +16,8 @@ var App = React.createClass({
 		return (
 			<main>
 				<Header />
-
 				{this.props.children}
+				<Footer />
 			</main>
 		);
 	}

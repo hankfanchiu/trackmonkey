@@ -1,26 +1,26 @@
 var React = require("react");
+var browserHistory = require('react-router').browserHistory;
 
 var Footer = React.createClass({
-  goToHome: function () {
-    console.log("go home clicked");
+  pushToHome: function () {
+    browserHistory.push("/");
   },
 
   render: function () {
     return (
-      <footer className="footer-basic-centered">
-        <p className="footer-company-motto">We track it for you.</p>
+      <footer className="footer">
 
         <p className="footer-links">
-            <a onClick={this.goToHome}>Home</a>
-            ·
-            <a href="https://github.com/hankfanchiu/package-tracker">Github</a>
-            ·
+            <a onClick={this.pushToHome}>Home</a>
+            |
+            <a href="https://github.com/hankfanchiu/package-tracker" target="_blank">Github</a>
+            |
             <a href="#">About</a>
-            ·
-            <a href="mailto:support@company.com">msiu23@gmail.com</a>
+            |
+            <a href="mailto:fanchiu.hank@gmail.com">Contact</a>
         </p>
 
-        <p className="footer-company-name">Tracer &copy; 2016</p>
+        <p className="footer-company-name">TrackMonkey &copy; 2016</p>
       </footer>
     );
   }
