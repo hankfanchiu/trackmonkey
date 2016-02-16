@@ -2,7 +2,6 @@ var React = require("react");
 var LinkedStateMixin = require("react-addons-linked-state-mixin");
 var Modal = require("react-bootstrap").Modal;
 var Input = require("react-bootstrap").Input;
-var ButtonInput = require("react-bootstrap").ButtonInput;
 var Button = require("react-bootstrap").Button;
 
 var VerifyPinModal = React.createClass({
