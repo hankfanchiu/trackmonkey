@@ -20,7 +20,6 @@ var About = React.createClass({
     var portraitHTMLEls = [],
         portraitDetails = this.portraitDetails();
     for (var i = 0; i < portraitDetails.length; i++) {
-      console.log(portraitDetails[i])
       var portrait = (
         <Portrait key={i} portraitDetails={portraitDetails[i]}/>
       );
