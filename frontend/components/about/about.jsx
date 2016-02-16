@@ -44,7 +44,7 @@ var About = React.createClass({
 
   render: function () {
     return (
-      <div className="about-page">
+      <section className="about-page">
         <Well>
           <h4>About</h4>
 
@@ -68,7 +68,7 @@ var About = React.createClass({
             {this.renderPortraits()}
           </div>
         </Well>
-      </div>
+      </section>
     );
   }
 });

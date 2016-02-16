@@ -4,7 +4,6 @@ var browserHistory = require("react-router").browserHistory;
 var Input = require("react-bootstrap").Input;
 var ButtonInput = require("react-bootstrap").ButtonInput;
 var Well = require("react-bootstrap").Well;
-var Button = require("react-bootstrap").Button;
 var Carrier = require("./carrier");
 var CarrierDropdown = require("./carrier_dropdown");
 var VerifyPinModal = require("./verify_pin_modal");
