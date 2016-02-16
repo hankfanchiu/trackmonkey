@@ -3,23 +3,11 @@ var LinkedStateMixin = require("react-addons-linked-state-mixin");
 var browserHistory = require("react-router").browserHistory;
 var Input = require("react-bootstrap").Input;
 var ButtonInput = require("react-bootstrap").ButtonInput;
-var DropdownButton = require("react-bootstrap").DropdownButton;
-var MenuItem = require("react-bootstrap").MenuItem;
 var Well = require("react-bootstrap").Well;
 var Button = require("react-bootstrap").Button;
-var Carrier = require("./carrier.js");
-
+var Carrier = require("./carrier");
+var CarrierDropdown = require("./carrier_dropdown");
 var VerifyPinModal = require("./verify_pin_modal");
-
-var carriers = {
-	ups: "UPS",
-	usps: "USPS",
-	fedex: "FedEx",
-	dhl_express: "DHL Express",
-	canada_post: "Canada Post",
-	lasership: "LaserShip",
-	mondial_relay: "Mondial Relay"
-};
 
 var Form = React.createClass({
 	mixins: [LinkedStateMixin],
@@ -36,9 +24,7 @@ var Form = React.createClass({
 		};
 	},
 
-	setCarrier: function (e, carrier) {
-		e.preventDefault();
-
+	setCarrier: function (carrier) {
 		this.setState({ carrier: carrier });
 	},
 
@@ -117,36 +103,6 @@ var Form = React.createClass({
 		this.setState({ tracking: !this.state.tracking });
 	},
 
-	dropdownTitle: function () {
-		if (this.state.carrier === "") {
-			return "Select carrier";
-		} else {
-			return carriers[this.state.carrier];
-		}
-	},
-
-	carrierOptions: function () {
-		return Object.keys(carriers).map(function (carrier) {
-			return (
-				<MenuItem eventKey={carrier} key={carrier}>
-					{carriers[carrier]}
-				</MenuItem>
-			);
-		});
-	},
-
-	carrierDropdown: function () {
-		return (
-			<DropdownButton title={this.dropdownTitle()}
-				id="input-dropdown-addon"
-				onSelect={this.setCarrier}
-				pullRight>
-
-				{this.carrierOptions()}
-			</DropdownButton>
-		);
-	},
-
   openModal: function() {
     this.setState({ modalOpen: true });
   },
@@ -183,12 +139,18 @@ var Form = React.createClass({
 		return (this.state.phoneNo.match(/\d{10}/) !== null);
 	},
 
-	handleTrackNumberChange: function (e) {
-		e.preventDefault();
-		var trackingNumber = e.target.value;
+	handleTrackNumberChange: function () {
+		var trackingNumber = this.refs.tracking.getValue();
 		var carrier = Carrier.detect(trackingNumber);
 
 		this.setState({ trackingNo: trackingNumber, carrier: carrier });
+	},
+
+	carrierDropdown: function () {
+		return (
+			<CarrierDropdown carrier={this.state.carrier}
+				setCarrier={this.setCarrier} />
+		);
 	},
 
 	render: function  () {
@@ -201,6 +163,7 @@ var Form = React.createClass({
 
 				<Input placeholder="Enter tracking number"
 					type="text"
+					ref="tracking"
 					buttonAfter={this.carrierDropdown()}
 					onChange={this.handleTrackNumberChange}/>
 
