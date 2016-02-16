@@ -1,28 +1,20 @@
 var React = require("react");
-var browserHistory = require("react-router").browserHistory;
+var Link = require("react-router").Link;
 
 var Footer = React.createClass({
-  pushToHome: function () {
-    browserHistory.push("/");
-  },
-
-  pushToAbout: function () {
-    browserHistory.push("/about");
-  },
-
   render: function () {
     return (
       <footer className="footer">
         <p className="footer-links">
-            <a onClick={this.pushToHome}>Home</a>
+            <Link to="/">Home</Link>
             |
-            <a onClick={this.pushToAbout}>About</a>
+            <Link to="about">About</Link>
             |
-            <a href="https://github.com/hankfanchiu/trackmonkey"
-              target="_blank">GitHub</a>
+            <Link to="https://github.com/hankfanchiu/trackmonkey"
+              target="_blank">GitHub</Link>
             |
-            <a href="https://twitter.com/goshippo/status/699044208267517952"
-              target="_blank">News</a>
+            <Link to="https://twitter.com/goshippo/status/699044208267517952"
+              target="_blank">News</Link>
         </p>
 
         <p className="footer-company-name">TrackMonkey &copy; 2016</p>
