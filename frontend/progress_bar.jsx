@@ -46,11 +46,11 @@ var ProgressBar = React.createClass({
 
       var tempHTMLEl = (
         <ListGroupItem className="completed" key={i}>
-          <span className="bubble"></span>
-          <span className="stacked-text">
-            <span><i>{eventCurrent["status"]} - {eventDate}</i></span><br/><br/>
+          <span className="event" key={1}>
+            <b><span>{eventCurrent["status"]}</span><br/></b>
+            <span>{eventDate}</span><br/>
+            <span>{eventLocation}</span><br/><br/>
             <span>{eventCurrent["status_details"]}</span><br/>
-            <span><b>{eventLocation}</b></span><br/><br/>
           </span>
         </ListGroupItem>
       );
@@ -68,10 +68,11 @@ var ProgressBar = React.createClass({
     var firstItemDate = (new Date(firstItem["status_date"])).toGMTString();
 
     var tempHTMLEl = (
-      <span className="stacked-text" key={1}>
-        <span><i>{firstItem["status"]} - {firstItemDate}</i></span><br/><br/>
-        <span>{firstItem["status_details"]}</span><br/>
-        <span><b>{firstItemLocation}</b></span><br/><br/>
+      <span className="firstEvent" key={1}>
+        <b><span>{firstItem["status"]}</span><br/></b>
+        <span>{firstItemDate}</span><br/>
+        <span>{firstItemLocation}</span><br/><br/>
+        <span>{firstItem["status_details"]}</span><br/><br/>
 
         <div className="arrow"><i className="fa fa-arrow-down"></i></div>
       </span>
