@@ -1,7 +1,6 @@
 var React = require("react");
-var browserHistory = require('react-router').browserHistory;
-var Well = require('react-bootstrap').Well;
-var Portrait = require('./portrait.jsx');
+var Well = require("react-bootstrap").Well;
+var Portrait = require("./portrait.jsx");
 
 var portraits = [
   {
