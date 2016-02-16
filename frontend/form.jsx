@@ -156,11 +156,6 @@ var Form = React.createClass({
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<figure className="monkey-logo">
-					<img src="hanging-monkey.png"></img>
-				</figure>
-				<br/>
-
 				<Input placeholder="Enter tracking number"
 					type="text"
 					ref="tracking"

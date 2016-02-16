@@ -32,10 +32,10 @@ var Tracking = React.createClass({
 		if (!this.state.shipment) { return <p></p>; }
 
 		return (
-			<div>
+			<section>
 				<Map shipment={this.state.shipment}/>
 				<ProgressBar shipment={this.state.shipment}/>
-			</div>
+			</section>
 		);
 	}
 });
