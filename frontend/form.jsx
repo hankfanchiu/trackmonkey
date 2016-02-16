@@ -9,6 +9,7 @@ var Collapse = require('react-bootstrap').Collapse;
 var Well = require('react-bootstrap').Well;
 var Button = require('react-bootstrap').Button;
 var Modal = require('react-bootstrap').Modal;
+var Carrier = require('./carrier.js');
 
 var Form = React.createClass({
 	mixins: [LinkedStateMixin],
@@ -222,6 +223,14 @@ var Form = React.createClass({
 		return (this.state.phoneNo.match(/\d{10}/) !== null);
 	},
 
+	handleTrackNumberChange: function (e) {
+		e.preventDefault();
+		var trackingNumber = e.target.value;
+		var carrier = Carrier.detect(trackingNumber);
+
+		this.setState({ trackingNo: trackingNumber, carrier: carrier });
+	},
+
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
@@ -233,7 +242,7 @@ var Form = React.createClass({
 				<Input placeholder="Enter Tracking Number"
 					type="text"
 					buttonAfter={this.carrierDropdown()}
-					valueLink={this.linkState('trackingNo')}/>
+					onChange={this.handleTrackNumberChange}/>
 
     		<Well>
 					<h4>Get SMS Updates (optional)</h4>
