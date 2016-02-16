@@ -1,16 +1,12 @@
-var React = require('react');
-var browserHistory = require('react-router').browserHistory;
+var React = require("react");
+var Link = require("react-router").Link;
 
 var Header = React.createClass({
-	pushToHome: function () {
-		browserHistory.push("/");
-	},
-
 	render: function () {
 		return (
-      <a onClick={this.pushToHome}>
+      <Link to="/">
         <h1 className="title">TRACKMONKEY</h1>
-      </a>
+      </Link>
 		);
 	}
 });
