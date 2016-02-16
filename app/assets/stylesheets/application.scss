@@ -19,12 +19,17 @@
 @media (min-width: 768px) {
  .container {
 	 width: 500px;
-	 padding-top: 15vh;
+	 padding-top: 12vh;
  }
  h1 {
 	 font-size: 55px;
 	 text-align: center;
  }
+ div .map {
+ 	width: 100%;
+ 	height: 25vw;
+ }
+
 }
 
 .monkey-logo {
@@ -49,7 +54,7 @@
 
 @media screen {
 	.well {
-		padding: 15px;
+		padding: 19px;
 		padding-top: 12px;
 		padding-bottom: 12px;
 	}
@@ -115,4 +120,17 @@ a {
 .title {
 	font-family: "Fugaz One";
 	color: white;
+}
+
+.footer {
+  color: white;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.footer a {
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
 }
