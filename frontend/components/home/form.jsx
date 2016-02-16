@@ -1,15 +1,12 @@
-var React = require('react');
-var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var browserHistory = require('react-router').browserHistory;
-var Input = require('react-bootstrap').Input;
-var ButtonInput = require('react-bootstrap').ButtonInput;
-var DropdownButton = require('react-bootstrap').DropdownButton;
-var MenuItem = require('react-bootstrap').MenuItem;
-var Collapse = require('react-bootstrap').Collapse;
-var Well = require('react-bootstrap').Well;
-var Button = require('react-bootstrap').Button;
-var Modal = require('react-bootstrap').Modal;
-var Carrier = require('./carrier.js');
+var React = require("react");
+var LinkedStateMixin = require("react-addons-linked-state-mixin");
+var browserHistory = require("react-router").browserHistory;
+var Input = require("react-bootstrap").Input;
+var ButtonInput = require("react-bootstrap").ButtonInput;
+var Well = require("react-bootstrap").Well;
+var Carrier = require("./carrier");
+var CarrierDropdown = require("./carrier_dropdown");
+var VerifyPinModal = require("./verify_pin_modal");
 
 var Form = React.createClass({
 	mixins: [LinkedStateMixin],
@@ -26,20 +23,8 @@ var Form = React.createClass({
 		};
 	},
 
-	toggleCarrier: function (e, carrier) {
-		e.preventDefault();
-
+	setCarrier: function (carrier) {
 		this.setState({ carrier: carrier });
-	},
-
-	carriers: {
-		ups: "UPS",
-		usps: "USPS",
-		fedex: "FedEx",
-		dhl_express: "DHL Express",
-		canada_post: "Canada Post",
-		lasership: "LaserShip",
-		mondial_relay: "Mondial Relay"
 	},
 
 	handleSubmit: function (e) {
@@ -48,7 +33,7 @@ var Form = React.createClass({
 		this.getTracking();
 	},
 
-	redirectToMap: function () {
+	pushToMap: function () {
 		var url = "/tracking/" + this.state.carrier + "___" + this.state.trackingNo;
 		browserHistory.push(url);
 	},
@@ -87,7 +72,7 @@ var Form = React.createClass({
 		if (this.validPhoneNo()) {
 			this.postPackageData();
 		} else {
-			this.redirectToMap();
+			this.pushToMap();
 		}
 	},
 
@@ -113,83 +98,9 @@ var Form = React.createClass({
 		});
 	},
 
-	verifyPin: function () {
-		var packageData = {
-			tracking_number: this.state.trackingNo,
-			carrier: this.state.carrier,
-			pin: this.state.pin
-		};
-
-		$.ajax({
-			url: 'packages/' + this.state.packageId,
-			type: 'PATCH',
-			dataType: 'json',
-			data: {package: packageData},
-			success: function () {
-				this.redirectToMap();
-			}.bind(this),
-			error: function (data) {
-				console.log("Failed");
-			}
-		});
-	},
-
 	toggleTracking: function () {
 		this.setState({ tracking: !this.state.tracking });
 	},
-
-	dropdownTitle: function () {
-		if (this.state.carrier === "") {
-			return "Select Carrier";
-		} else {
-			return this.carriers[this.state.carrier];
-		}
-	},
-
-	carrierDropdown: function () {
-		var carrierOptions = Object.keys(this.carriers).map(function(carrier){
-			return (
-				<MenuItem eventKey={carrier} key={carrier}>
-					{this.carriers[carrier]}
-				</MenuItem>
-			);
-		}.bind(this));
-
-		return (
-			<DropdownButton title={this.dropdownTitle()}
-				id="input-dropdown-addon"
-				onSelect={this.toggleCarrier}
-				pullRight>
-
-				{carrierOptions}
-
-			</DropdownButton>
-		);
-	},
-
-	renderModal: function () {
-    return (
-      <Modal show={this.state.modalOpen}
-        onHide={this.closeModal}
-				bsSize="small"
-				aria-labelledby="contained-modal-title-sm">
-
-				<Modal.Header closeButton>
-					<Modal.Title>Enter your PIN</Modal.Title>
-				</Modal.Header>
-
-				<Modal.Body>
-					<Input placeholder="PIN #"
-						type="text"
-						valueLink={this.linkState("pin")}/>
-
-					<Button block onClick={this.verifyPin}>
-						Submit
-					</Button>
-				</Modal.Body>
-      </Modal>
-    );
-  },
 
   openModal: function() {
     this.setState({ modalOpen: true });
@@ -200,7 +111,11 @@ var Form = React.createClass({
   },
 
 	submitText: function () {
-		return (this.state.phoneNo === "" ? "Find Package" : "Find & Track Package");
+		if (this.state.phoneNo === "") {
+			return "Find Package";
+		} else {
+			return "Find & Track Package";
+		}
 	},
 
 	submitDisabled: function() {
@@ -223,47 +138,55 @@ var Form = React.createClass({
 		return (this.state.phoneNo.match(/\d{10}/) !== null);
 	},
 
-	handleTrackNumberChange: function (e) {
-		e.preventDefault();
-		var trackingNumber = e.target.value;
+	handleTrackNumberChange: function () {
+		var trackingNumber = this.refs.tracking.getValue();
 		var carrier = Carrier.detect(trackingNumber);
 
 		this.setState({ trackingNo: trackingNumber, carrier: carrier });
 	},
 
+	carrierDropdown: function () {
+		return (
+			<CarrierDropdown carrier={this.state.carrier}
+				setCarrier={this.setCarrier} />
+		);
+	},
+
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<div className="monkey-logo">
-					<img src="hanging-monkey.png"></img>
-				</div>
-				<br/>
-
-				<Input placeholder="Enter Tracking Number"
+				<Input placeholder="Enter tracking number"
 					type="text"
+					ref="tracking"
 					buttonAfter={this.carrierDropdown()}
 					onChange={this.handleTrackNumberChange}/>
 
     		<Well>
 					<h4>Get SMS Updates (optional)</h4>
-    			<Input placeholder="Enter Phone Number"
+
+    			<Input placeholder="Enter phone number"
           	type="text"
-          	valueLink={this.linkState('phoneNo')}/>
+          	valueLink={this.linkState("phoneNo")}/>
 
 	        <Input type="checkbox"
 	        	className="active"
 	        	label="Keep me updated along the way"
 	        	help="Leave this unchecked if you want to only be notified upon arrival"
-	        	valueLink={this.linkState('receiveUpdates')}/>
+	        	valueLink={this.linkState("receiveUpdates")}/>
     		</Well>
 
         <ButtonInput type="submit" block
 					bsStyle="primary"
+					bsSize="large"
 					value={this.submitText()}
 					disabled={this.submitDisabled()}/>
 
-				{this.renderModal()}
-
+				<VerifyPinModal modalOpen={this.state.modalOpen}
+					trackingNo={this.state.trackingNo}
+					carrier={this.state.carrier}
+					packageId={this.state.packageId}
+					closeModal={this.closeModal}
+					pushToMap={this.pushToMap} />
 			</form>
 		);
 	}
