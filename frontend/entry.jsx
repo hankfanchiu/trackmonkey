@@ -10,6 +10,7 @@ var Footer = require('./footer.jsx');
 var Form = require('./form.jsx');
 var Footer = require('./footer.jsx');
 var Tracking = require('./tracking.jsx');
+var About = require('./about.jsx');
 
 var App = React.createClass({
 	render: function () {
@@ -28,6 +29,7 @@ var router = (
 		<Route path="/" component={App}>
 			<IndexRoute component={Form}/>
 			<Route path="tracking/:shipment" component={Tracking}/>
+			<Route path="about" component={About}/>
 		</Route>
 	</Router>
 );
