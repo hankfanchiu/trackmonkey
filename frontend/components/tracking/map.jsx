@@ -1,6 +1,6 @@
 var React = require('react');
 var MapStyle = require('./mapstyle.js');
-var customsDictionary = require('./customs.js');
+var addressFromLocation = require('./addressFromLocation.js');
 
 var Map = React.createClass ({
   getInitialState: function() {
@@ -112,38 +112,16 @@ var Map = React.createClass ({
   createAddressStrings: function () {
     var addresses = this.getEventAddresses();
     var addressStrings = [];
-    var eventCurrent;
+    var locationObject;
     var locationComponent;
-    var tempStringArray;
-    var tempString;
+    var addressString;
 
     for (var i = 0; i < addresses.length; i++) {
-			eventCurrent = addresses[i]["location"];
-			tempStringArray = [];
+			locationObject = addresses[i]["location"];
+      addressString = addressFromLocation(locationObject);
 
-      for (var prop in eventCurrent) {
-        locationComponent = eventCurrent[prop]
-
-        if (locationComponent === null || locationComponent === "") {
-          continue;
-        } else {
-          for (var key in customsDictionary) {
-            var breakEarly = false;
-            if (locationComponent.toUpperCase().match(key)) {
-              tempStringArray.push(customsDictionary[key])
-              breakEarly = true;
-              break;
-            }
-          }
-          if (breakEarly === false && locationComponent !== "") {
-            tempStringArray.push(locationComponent)
-          }
-        }
-      }
-
-      tempString = tempStringArray.join(' ');
-      if (tempString !== " " && tempString !== "" && addressStrings.indexOf(tempString) === -1) {
-        addressStrings.push(tempString);
+      if (addressString !== " " && addressString !== "" && addressStrings.indexOf(addressString) === -1) {
+        addressStrings.push(addressString);
       }
     }
 
