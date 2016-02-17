@@ -1,5 +1,6 @@
 var React = require('react');
 var MapStyle = require('./mapstyle.js');
+var customsDictionary = require('./customs.js');
 
 var Map = React.createClass ({
   getInitialState: function() {
@@ -30,8 +31,6 @@ var Map = React.createClass ({
      var genMarker = function (i) {
        if (i < addresses.length) {
           $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[i]+'&sensor=false', null, function (data) {
-            console.log(i);
-            console.log(data);
             if (data.results[0]) {
               var p = data.results[0].geometry.location;
               var iconUrl = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
@@ -124,21 +123,24 @@ var Map = React.createClass ({
 
       for (var prop in eventCurrent) {
         locationComponent = eventCurrent[prop]
-        if (locationComponent === null) {
+
+        if (locationComponent === null || locationComponent === "") {
           continue;
-        } else if (locationComponent.match(/Usorda/) !== null) {
-          tempStringArray.push("Chicago");
-        } else if (locationComponent.match(/Ussfoa/) !== null) {
-          tempStringArray.push("Oakland CA");
-        } else if (locationComponent.match(/Usjfka/) !== null) {
-          tempStringArray.push("New York City");
-        } else if (locationComponent.match(/Uslaxa/) !== null) {
-          tempStringArray.push("Los Angeles");
-        } else if (locationComponent !== "") {
-          tempStringArray.push(eventCurrent[prop]);
+        } else {
+          for (var key in customsDictionary) {
+            var breakEarly = false;
+            if (locationComponent.toUpperCase().match(key)) {
+              tempStringArray.push(customsDictionary[key])
+              breakEarly = true;
+              break;
+            }
+          }
+          if (breakEarly === false && locationComponent !== "") {
+            tempStringArray.push(locationComponent)
+          }
         }
       }
-USJFKA / USLAXA / USSFOA / USORDA
+
       tempString = tempStringArray.join(' ');
       if (tempString !== " " && tempString !== "" && addressStrings.indexOf(tempString) === -1) {
         addressStrings.push(tempString);
