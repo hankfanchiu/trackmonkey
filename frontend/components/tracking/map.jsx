@@ -26,10 +26,13 @@ var Map = React.createClass ({
 		 var map = this.map;
 		 var markerList = [];
      var that = this;
+     console.log(addresses);
 
      var genMarker = function (i) {
        if (i < addresses.length) {
           $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addresses[i]+'&sensor=false', null, function (data) {
+            console.log(i);
+            console.log(data);
             var p = data.results[0].geometry.location;
             var iconUrl = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
 
@@ -110,17 +113,29 @@ var Map = React.createClass ({
     var addresses = this.getEventAddresses();
     var addressStrings = [];
     var eventCurrent;
+    var locationComponent;
+    var tempStringArray;
     var tempString;
 
     for (var i = 0; i < addresses.length; i++) {
 			eventCurrent = addresses[i]["location"];
-			tempString = [];
+			tempStringArray = [];
 
       for (var prop in eventCurrent) {
-        tempString.push(eventCurrent[prop]);
+        locationComponent = eventCurrent[prop]
+        if (locationComponent === null) {
+          continue;
+        } else if (locationComponent.match(/Usorda/) !== null) {
+          tempStringArray.push("Chicago");
+        } else if (locationComponent !== "") {
+          tempStringArray.push(eventCurrent[prop]);
+        }
       }
 
-      addressStrings.push(tempString.join(' '));
+      tempString = tempStringArray.join(' ');
+      if (tempString !== " " && tempString !== "" && addressStrings.indexOf(tempString) === -1) {
+        addressStrings.push(tempString);
+      }
     }
 
     return addressStrings;
