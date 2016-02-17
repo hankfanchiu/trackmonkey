@@ -128,11 +128,17 @@ var Map = React.createClass ({
           continue;
         } else if (locationComponent.match(/Usorda/) !== null) {
           tempStringArray.push("Chicago");
+        } else if (locationComponent.match(/Ussfoa/) !== null) {
+          tempStringArray.push("Oakland CA");
+        } else if (locationComponent.match(/Usjfka/) !== null) {
+          tempStringArray.push("New York City");
+        } else if (locationComponent.match(/Uslaxa/) !== null) {
+          tempStringArray.push("Los Angeles");
         } else if (locationComponent !== "") {
           tempStringArray.push(eventCurrent[prop]);
         }
       }
-
+USJFKA / USLAXA / USSFOA / USORDA
       tempString = tempStringArray.join(' ');
       if (tempString !== " " && tempString !== "" && addressStrings.indexOf(tempString) === -1) {
         addressStrings.push(tempString);
