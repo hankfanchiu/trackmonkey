@@ -42,7 +42,7 @@ var ProgressBar = React.createClass({
 
     for (var i = 1; i < historyItems.length; i++) {
       var eventCurrent = historyItems[i];
-      var eventLocation = this.generateHTMLLocation(eventCurrent["location"]);
+      var eventLocation = this.addressFromLocation(eventCurrent["location"]);
       var eventDate = (new Date(eventCurrent["status_date"])).toGMTString();
 
       var tempHTMLEl = (
