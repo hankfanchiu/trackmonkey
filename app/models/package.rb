@@ -7,23 +7,13 @@
 #  pin             :string           not null
 #  verified        :boolean          default(FALSE), not null
 #  tracking_number :string           not null
-#  alert_updates   :boolean          default(TRUE), not null
+#  alert_updates   :boolean          default(FALSE), not null
 #  alert_final     :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 
-#  phone_number  :string           not null
-#  pin           :string           not null
-#  verified      :boolean          default(FALSE), not null
-#  tracking_id   :string           not null
-#  alert_updates :boolean          default(TRUE), not null
-#  alert_final   :boolean          default(TRUE), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#
-
-require 'twilio_client'
+require "twilio_client"
 
 class Package < ActiveRecord::Base
   validates :phone_number,
@@ -40,17 +30,26 @@ class Package < ActiveRecord::Base
   validates_uniqueness_of :phone_number, { scope: :tracking_number }
 
   def self.send_batch_updates(tracking_number, tracking_status, carrier)
-    packages = self.where(verified: true)
-      .where(tracking_number: tracking_number)
-
-    status = tracking_status["status"]
-    url = "http://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
+    tracking_status ||= "UNKNOWN"
+    packages = filter_packages(tracking_number, tracking_status)
 
     packages.each do |package|
-      TwilioClient.instance.send_sms(
+      TwilioClient.instance.send_sms_update(
         package.phone_number,
-        "The status of your package (tracking number #{tracking_number}) has been updated to #{status}. See more details here: #{url}"
+        tracking_number,
+        tracking_status,
+        carrier
       )
+    end
+  end
+
+  def self.filter_packages(tracking_number, tracking_status)
+    packages = self.where(verified: true, tracking_number: tracking_number)
+
+    if tracking_status == "DELIVERED"
+      packages
+    else
+      packages.where(alert_updates: true)
     end
   end
 
@@ -60,23 +59,24 @@ class Package < ActiveRecord::Base
   end
 
   def send_pin
-    TwilioClient.instance.send_sms(phone_number, "Your PIN is #{pin}")
+    TwilioClient.instance.send_pin(self.phone_number, self.pin)
   end
 
   def verify(entered_pin)
-    update_attributes(verified: true) if self.pin == entered_pin
+    self.update_attributes(verified: true) if self.pin == entered_pin
   end
 
-  def send_sms_update(shippo_tracking_json)
-    shippo_update_object = JSON.parse(shippo_tracking_json)
-    tracking_number = shippo_update_object["tracking_number"]
-    status = shippo_update_object["tracking_status"]["status"]
-    carrier = shippo_update_object["carrier"]
-    url = "http://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
+  def send_initial_sms(shippo_tracking_json)
+    shippo_tracking = JSON.parse(shippo_tracking_json)
 
-    TwilioClient.instance.send_sms(
+    return unless self.tracking_number == shippo_tracking["tracking_number"]
+    return unless shippo_tracking["tracking_status"].is_a?(Hash)
+
+    TwilioClient.instance.send_initial_sms(
       self.phone_number,
-      "TrackMonkey package (tracking number #{tracking_number}) status: #{status}. See more details here: #{url}"
+      self.tracking_number,
+      shippo_tracking["tracking_status"]["status"],
+      shippo_tracking["carrier"]
     )
   end
 end
