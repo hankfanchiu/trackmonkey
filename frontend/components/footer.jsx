@@ -8,7 +8,7 @@ var Footer = React.createClass({
         <p className="footer-links">
             <Link to="/">Home</Link>
             |
-            <Link to="about">About</Link>
+            <Link to="/about">About</Link>
             |
             <Link to="https://github.com/hankfanchiu/trackmonkey"
               target="_blank">GitHub</Link>
