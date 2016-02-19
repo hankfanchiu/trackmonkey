@@ -43,11 +43,13 @@ class Package < ActiveRecord::Base
   end
 
   def self.filter_packages(tracking_number, tracking_status)
-    should_alert_updates = (tracking_status != "DELIVERED")
-    
-    packages = self.where(verified: true)
-      .where(tracking_number: tracking_number)
-      .where(alert_updates: should_alert_updates)
+    packages = self.where(verified: true, tracking_number: tracking_number)
+
+    if tracking_status == "DELIVERED"
+      packages
+    else
+      packages.where(alert_updates: true)
+    end
   end
 
   def generate_pin
