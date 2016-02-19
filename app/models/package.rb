@@ -13,7 +13,7 @@
 #  updated_at      :datetime         not null
 #
 
-require 'twilio_client'
+require "twilio_client"
 
 class Package < ActiveRecord::Base
   validates :phone_number,
@@ -34,9 +34,11 @@ class Package < ActiveRecord::Base
     packages = filter_packages(tracking_number, tracking_status)
 
     packages.each do |package|
-      TwilioClient.instance.send_sms(
+      TwilioClient.instance.send_sms_update(
         package.phone_number,
-        "Your shipment (##{tracking_number}) status has been updated to #{tracking_status}.\n\nVisit TrackMonkey for details:\nhttp://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
+        tracking_number,
+        tracking_status,
+        carrier
       )
     end
   end
@@ -57,25 +59,24 @@ class Package < ActiveRecord::Base
   end
 
   def send_pin
-    TwilioClient.instance.send_sms(
-      phone_number,
-      "Your TrackMonkey PIN is #{pin}."
-    )
+    TwilioClient.instance.send_pin(self.phone_number, self.pin)
   end
 
   def verify(entered_pin)
-    update_attributes(verified: true) if self.pin == entered_pin
+    self.update_attributes(verified: true) if self.pin == entered_pin
   end
 
-  def send_sms_update(shippo_tracking_json)
-    shippo_update_object = JSON.parse(shippo_tracking_json)
-    tracking_number = shippo_update_object["tracking_number"]
-    status = shippo_update_object["tracking_status"]["status"]
-    carrier = shippo_update_object["carrier"]
+  def send_initial_sms(shippo_tracking_json)
+    shippo_tracking = JSON.parse(shippo_tracking_json)
 
-    TwilioClient.instance.send_sms(
+    return unless self.tracking_number == shippo_tracking["tracking_number"]
+    return unless shippo_tracking["tracking_status"].is_a?(Hash)
+
+    TwilioClient.instance.send_initial_sms(
       self.phone_number,
-      "Your shipment (##{tracking_number}) status is currently #{tracking_status}.\n\nCheck updates on TrackMonkey:\nhttp://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
+      self.tracking_number,
+      shippo_tracking["tracking_status"]["status"],
+      shippo_tracking["carrier"]
     )
   end
 end

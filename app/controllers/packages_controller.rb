@@ -18,7 +18,7 @@ class PackagesController < ApplicationController
 
     if package.verify(package_params[:pin])
       shippo_tracking_json = request_shippo_updates
-      package.send_sms_update(shippo_tracking_json)
+      package.send_initial_sms(shippo_tracking_json)
 
       render json: { tracking: shippo_tracking_json }
     else
