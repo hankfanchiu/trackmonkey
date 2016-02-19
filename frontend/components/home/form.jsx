@@ -168,11 +168,11 @@ var Form = React.createClass({
           	type="text"
           	valueLink={this.linkState("phoneNo")}/>
 
-	        <Input type="checkbox"
+					<Input type="checkbox"
 	        	className="active"
 	        	label="Keep me updated along the way"
 	        	help="Leave this unchecked if you want to only be notified upon arrival"
-	        	valueLink={this.linkState("receiveUpdates")}/>
+	        	checkedLink={this.linkState("receiveUpdates")}/>
     		</Well>
 
         <ButtonInput type="submit" block
