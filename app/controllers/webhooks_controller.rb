@@ -9,7 +9,7 @@ class WebhooksController < ApplicationController
     if tracking_number && tracking_status != "null"
       Package.send_batch_updates(
         tracking_number,
-        tracking_status,
+        tracking_status[:status],
         carrier
       )
 

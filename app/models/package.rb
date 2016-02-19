@@ -13,16 +13,6 @@
 #  updated_at      :datetime         not null
 #
 
-#  phone_number  :string           not null
-#  pin           :string           not null
-#  verified      :boolean          default(FALSE), not null
-#  tracking_id   :string           not null
-#  alert_updates :boolean          default(TRUE), not null
-#  alert_final   :boolean          default(TRUE), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#
-
 require 'twilio_client'
 
 class Package < ActiveRecord::Base
@@ -40,18 +30,24 @@ class Package < ActiveRecord::Base
   validates_uniqueness_of :phone_number, { scope: :tracking_number }
 
   def self.send_batch_updates(tracking_number, tracking_status, carrier)
-    packages = self.where(verified: true)
-      .where(tracking_number: tracking_number)
-
-    status = tracking_status["status"]
+    tracking_status ||= "UNKNOWN"
     url = "http://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
+    packages = filter_packages(tracking_number, tracking_status)
 
     packages.each do |package|
       TwilioClient.instance.send_sms(
         package.phone_number,
-        "The status of your package (tracking number #{tracking_number}) has been updated to #{status}. See more details here: #{url}"
+        "The status of your package (tracking number #{tracking_number}) has been updated to #{tracking_status}. See more details here: #{url}"
       )
     end
+  end
+
+  def self.filter_packages(tracking_number, tracking_status)
+    should_alert_updates = (tracking_status != "DELIVERED")
+    
+    packages = self.where(verified: true)
+      .where(tracking_number: tracking_number)
+      .where(alert_updates: should_alert_updates)
   end
 
   def generate_pin
