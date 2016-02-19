@@ -31,13 +31,12 @@ class Package < ActiveRecord::Base
 
   def self.send_batch_updates(tracking_number, tracking_status, carrier)
     tracking_status ||= "UNKNOWN"
-    url = "http://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
     packages = filter_packages(tracking_number, tracking_status)
 
     packages.each do |package|
       TwilioClient.instance.send_sms(
         package.phone_number,
-        "The status of your package (tracking number #{tracking_number}) has been updated to #{tracking_status}. See more details here: #{url}"
+        "Your shipment (##{tracking_number}) status has been updated to #{tracking_status}.\n\nVisit TrackMonkey for details:\nhttp://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
       )
     end
   end
@@ -58,7 +57,10 @@ class Package < ActiveRecord::Base
   end
 
   def send_pin
-    TwilioClient.instance.send_sms(phone_number, "Your PIN is #{pin}")
+    TwilioClient.instance.send_sms(
+      phone_number,
+      "Your TrackMonkey PIN is #{pin}."
+    )
   end
 
   def verify(entered_pin)
@@ -70,11 +72,10 @@ class Package < ActiveRecord::Base
     tracking_number = shippo_update_object["tracking_number"]
     status = shippo_update_object["tracking_status"]["status"]
     carrier = shippo_update_object["carrier"]
-    url = "http://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
 
     TwilioClient.instance.send_sms(
       self.phone_number,
-      "TrackMonkey package (tracking number #{tracking_number}) status: #{status}. See more details here: #{url}"
+      "Your shipment (##{tracking_number}) status is currently #{tracking_status}.\n\nCheck updates on TrackMonkey:\nhttp://trackmonkey.io/tracking/#{carrier}___#{tracking_number}"
     )
   end
 end
