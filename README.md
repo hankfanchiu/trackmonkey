@@ -1,16 +1,20 @@
 # TrackMonkey
 
-[TrackMonkey](http://trackmonkey.io/) is a mobile-first web application to trace your shipment. Enter in the tracking number of your shipment, and see the transit route on a map as well as the transit history in detail.
+[TrackMonkey](http://trackmonkey.io/) is a mobile web application to trace your shipment. Enter in the tracking number of your shipment, and see the transit route on a map as well as the transit history in detail.
 
-You can also register your phone number to receive real-time SMS updates for a shipment.
+You could also register your phone number to receive real-time SMS updates for a shipment.
+
+![TrackMonkey home page](./screenshot.png "TrackMonkey home page")
+
+## History
+
+TrackMonkey is a product of the [DeveloperWeek 2016 Hackathon](http://www.developerweek.com/hackathon/) (February 13-14), solving and winning the [Shippo Tracking API Challenge](https://github.com/goshippo/devweek16-shippo-challenge/).
 
 ## Implementation
 
 The technical implementation and technologies used for TrackMonkey are detailed in the project [documentation](/docs/technology.md/).
 
-## History
-
-TrackMonkey was a product of the [DeveloperWeek 2016 Hackathon](http://www.developerweek.com/hackathon/) (February 13-14), solving and winning the [Shippo challenge](https://github.com/goshippo/devweek16-shippo-challenge/).
+## Contributors
 
 The project was designed and built by a team of five full-stack software engineers:
 

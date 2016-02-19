@@ -1,7 +1,7 @@
 {
-  "name": "package-tracker",
+  "name": "trackmonkey",
   "version": "1.0.0",
-  "description": "== README",
+  "description": "TrackMonkey is a mobile web app for tracing packages by tracking number. It integrates the Shippo Tracking API and Google Maps API for visualization of the shipment transit history. By registering a phone number, TrackMonkey also utilizes Shippo webhooks and Twilio's text messaging service to send real-time SMS alerts whenever the status of a shipment is updated.",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -11,27 +11,28 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hankfanchiu/package-tracker.git"
+    "url": "git+https://github.com/hankfanchiu/trackmonkey.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hankfanchiu/package-tracker/issues"
+    "url": "https://github.com/hankfanchiu/trackmonkey/issues"
   },
-  "homepage": "https://github.com/hankfanchiu/package-tracker#readme",
+  "homepage": "https://github.com/hankfanchiu/trackmonkey#readme",
   "dependencies": {
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.2",
     "babel-preset-react": "^6.5.0",
-    "flux": "^2.1.1",
     "history": "^2.0.0",
     "keymirror": "^0.1.1",
     "react": "^0.14.7",
     "react-addons-linked-state-mixin": "^0.14.7",
     "react-bootstrap": "^0.28.3",
     "react-dom": "^0.14.7",
+    "react-redux": "^4.4.0",
     "react-router": "^2.0.0",
+    "redux": "^3.3.1",
     "webpack": "^1.12.13"
   },
   "devDependencies": {},
