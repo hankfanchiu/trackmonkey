@@ -81,7 +81,7 @@ var Form = React.createClass({
 			phone_number: this.state.phoneNo,
 			tracking_number: this.state.trackingNo,
 			carrier: this.state.carrier,
-			alert_updates: this.state.tracking
+			alert_updates: this.state.receiveUpdates
 		};
 
 		$.ajax({
