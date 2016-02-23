@@ -1,7 +1,6 @@
-var React = require('react');
-var browserHistory = require('react-router').browserHistory;
-var Map = require('./map.jsx');
-var ProgressBar = require('./progress_bar.jsx');
+var React = require("react");
+var Map = require("./map");
+var ProgressBar = require("./progress_bar");
 
 var Tracking = React.createClass({
 	getInitialState: function () {
@@ -11,21 +10,18 @@ var Tracking = React.createClass({
 	componentDidMount: function() {
 		var shipParams = this.props.params.shipment.split("___");
 		var carrier = shipParams[0];
-		var shippingNo = shipParams[1];
+		var trackingNo = shipParams[1];
 
-		this.getShipmentData(carrier, shippingNo);
+		this.getShipmentData(carrier, trackingNo);
 	},
 
-	getShipmentData: function (carrier, shippingNo) {
-		var url = "http://hackers-api.goshippo.com/v1/tracks/" + carrier + "/" + shippingNo + "/";
+	getShipmentData: function (carrier, trackingNo) {
+		var url =
+			"https://api.goshippo.com/v1/tracks/" + carrier + "/" + trackingNo;
 
 		$.get(url, function(data){
 			this.setState({ shipment: data });
 		}.bind(this));
-	},
-
-	redirectToHome: function () {
-		browserHistory.push("/");
 	},
 
 	render: function () {
@@ -34,7 +30,7 @@ var Tracking = React.createClass({
 		return (
 			<main>
 				<Map shipment={this.state.shipment}/>
-				
+
 				<ProgressBar shipment={this.state.shipment}/>
 			</main>
 		);
