@@ -1,20 +1,20 @@
 var customsDictionary = require("./customs_dictionary");
 
-var getAddressFromLocation = function(location) {
+var getAddressFromLocation = function (location) {
   var address = "";
-  var component;
+  var addressComponent;
 
   for (var prop in location) {
-    component = location[prop];
+    addressComponent = location[prop];
 
-    if (!component) { continue; }
+    if (!addressComponent) { continue; }
 
-    if (customsDictionary[component.toUpperCase()]) {
-      component = customsDictionary[component.toUpperCase()];
+    if (customsDictionary[addressComponent.toUpperCase()]) {
+      addressComponent = customsDictionary[addressComponent.toUpperCase()];
     }
 
-    component += (prop === "city" ? ", " : " ");
-    address += component;
+    addressComponent += (prop === "city" ? ", " : " ");
+    address += addressComponent;
   }
 
   return address;
