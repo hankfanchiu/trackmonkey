@@ -1,4 +1,4 @@
-module.exports = [
+var trackMonkeyTeam = [
   {
     name: "Byron Sha",
     role: "Software Engineer",
@@ -30,3 +30,5 @@ module.exports = [
     img: "/mack.jpg"
   },
 ];
+
+module.exports = trackMonkeyTeam;

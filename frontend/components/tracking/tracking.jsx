@@ -29,13 +29,14 @@ var Tracking = React.createClass({
 	},
 
 	render: function () {
-		if (!this.state.shipment) { return <p></p>; }
+		if (!this.state.shipment) { return <main></main>; }
 
 		return (
-			<section>
+			<main>
 				<Map shipment={this.state.shipment}/>
+				
 				<ProgressBar shipment={this.state.shipment}/>
-			</section>
+			</main>
 		);
 	}
 });

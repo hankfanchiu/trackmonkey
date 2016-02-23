@@ -4,14 +4,15 @@ var Form = require("./form");
 var Home = React.createClass({
 	render: function  () {
 		return (
-      <section>
+      <main>
 				<figure className="monkey-logo">
 					<img src="hanging-monkey.png"></img>
 				</figure>
+
 				<br/>
 
 				<Form />
-      </section>
+      </main>
 		);
 	}
 });

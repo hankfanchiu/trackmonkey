@@ -5,13 +5,13 @@ var Footer = require("./footer");
 var App = React.createClass({
 	render: function () {
 		return (
-			<main>
+			<div>
 				<Header />
 
 				{this.props.children}
 
 				<Footer />
-			</main>
+			</div>
 		);
 	}
 });
