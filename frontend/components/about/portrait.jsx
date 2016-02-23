@@ -9,6 +9,7 @@ var Portrait = React.createClass({
         <a href={portrait.linkedin} target="_blank">
           <img src={portrait.img}></img>
         </a>
+
         <p>
           {portrait.name}<br/>
           {portrait.role}
