@@ -10,14 +10,16 @@ var Footer = React.createClass({
             |
             <Link to="/about">About</Link>
             |
-            <Link to="https://github.com/hankfanchiu/trackmonkey"
-              target="_blank">GitHub</Link>
+            <a href="https://github.com/hankfanchiu/trackmonkey"
+              target="_blank">GitHub</a>
             |
-            <Link to="https://twitter.com/goshippo/status/699044208267517952"
-              target="_blank">News</Link>
+            <a href="https://twitter.com/goshippo/status/699044208267517952"
+              target="_blank">News</a>
         </p>
 
-        <p className="footer-company-name">TrackMonkey &copy; 2016</p>
+        <p className="footer-company-name">
+          TrackMonkey &copy; 2016
+        </p>
       </footer>
     );
   }
