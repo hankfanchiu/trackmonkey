@@ -5,90 +5,67 @@ var Panel = require("react-bootstrap").Panel;
 var getAddressFromLocation = require("../../utils/get_address_from_location");
 
 var ProgressBar = React.createClass({
-  getInitialState: function () {
-    return {
-      firstHTMLEl: [],
-      trackingHTMLEls: []
-    };
+  mostRecentLocation: function () {
+    var trackingHistory = this.props.trackingHistory;
+
+    if (trackingHistory.length === 0) { return <span></span>; }
+
+    var tracking = trackingHistory[trackingHistory.length - 1];
+    var date = new Date(tracking.status_date).toGMTString();
+    var address = getAddressFromLocation(tracking.location);
+
+    return (
+      <div key={1}>
+        <div className="tracking-status">{tracking.status}</div>
+        <div className="tracking-data">{date}</div>
+        <div className="tracking-data">{address}</div>
+
+        <div className="tracking-detail">{tracking.status_details}</div>
+
+        <div className="arrow">
+          <i className="fa fa-arrow-down"></i>
+        </div>
+      </div>
+    );
   },
 
-  componentDidMount: function() {
-    this.setState({
-      trackingHTMLEls: this.createHTMLEls(),
-      firstHTMLEl: this.createFirstHTMLEl()
-    });
-  },
+  locationList: function () {
+    var trackingHistory = this.props.trackingHistory;
 
-  generateHistory: function () {
-    var historyItems = [];
-    var eventDetails;
+    if (trackingHistory.length <= 1) { return; } 
 
-   	this.props.shipment["tracking_history"].forEach(function(trackingEvent){
-      eventDetails = {};
-      eventDetails["status"] = trackingEvent["status"];
-      eventDetails["status_details"] = trackingEvent["status_details"];
-      eventDetails["location"] = trackingEvent["location"];
-      eventDetails["status_date"] = trackingEvent["status_date"];
+    var locationList = [];
+    var tracking, date, address, locationItem;
 
-      historyItems.unshift(eventDetails);
-   	});
+    for (var i = trackingHistory.length - 2; i >= 0; i--) {
+      tracking = trackingHistory[i];
+      date = new Date(tracking.status_date).toGMTString();
+      address = getAddressFromLocation(tracking.location);
 
-    return historyItems;
-  },
-
-  createHTMLEls: function () {
-    var historyHTMLEls = [];
-    var historyItems = this.generateHistory();
-
-    for (var i = 1; i < historyItems.length; i++) {
-      var eventCurrent = historyItems[i];
-      var eventLocation = getAddressFromLocation(eventCurrent["location"]);
-      var eventDate = (new Date(eventCurrent["status_date"])).toGMTString();
-
-      var tempHTMLEl = (
+      locationItem = (
         <ListGroupItem className="completed" key={i}>
-          <span className="event" key={1}>
-            <b><span>{eventCurrent["status"]}</span><br/></b>
-            <span>{eventDate}</span><br/>
-            <span>{eventLocation}</span><br/><br/>
-            <span>{eventCurrent["status_details"]}</span><br/>
-          </span>
+          <div className="tracking-status">{tracking.status}</div>
+          <div className="tracking-data">{date}</div>
+          <div className="tracking-data">{address}</div>
+
+          <div className="tracking-detail">{tracking.status_details}</div>
         </ListGroupItem>
       );
 
-      historyHTMLEls.push(tempHTMLEl);
+      locationList.push(locationItem);
     }
 
-    return historyHTMLEls;
-  },
-
-  createFirstHTMLEl: function () {
-    var firstHTMLEl = [];
-    var firstItem = this.generateHistory()[0];
-    var firstItemLocation = getAddressFromLocation(firstItem["location"]);
-    var firstItemDate = (new Date(firstItem["status_date"])).toGMTString();
-
-    var tempHTMLEl = (
-      <span className="firstEvent" key={1}>
-        <b><span>{firstItem["status"]}</span><br/></b>
-        <span>{firstItemDate}</span><br/>
-        <span>{firstItemLocation}</span><br/><br/>
-        <span>{firstItem["status_details"]}</span><br/><br/>
-
-        <div className="arrow"><i className="fa fa-arrow-down"></i></div>
-      </span>
-    );
-
-    firstHTMLEl.push(tempHTMLEl);
-
-    return firstHTMLEl;
+    return locationList;
   },
 
   render: function () {
     return (
-      <Panel collapsible defaultCollapsed header={this.state.firstHTMLEl}>
+      <Panel collapsible
+        defaultCollapsed
+        header={this.mostRecentLocation()}>
+
         <ListGroup className="location-list" fill>
-          {this.state.trackingHTMLEls}
+          {this.locationList()}
         </ListGroup>
       </Panel>
     );

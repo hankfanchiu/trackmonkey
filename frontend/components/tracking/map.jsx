@@ -128,16 +128,6 @@ var Map = React.createClass ({
     return addressStrings;
   },
 
-	generateHTMLLocation: function (location) {
-		var locationArray = [];
-
-		for (var props in location) {
-			locationArray.push(location[props]);
-		}
-
-		return locationArray.join(' ');
-	},
-
   render: function () {
     return <div className="map" ref="map"/>;
   }
