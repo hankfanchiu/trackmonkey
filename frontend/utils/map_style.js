@@ -1,4 +1,4 @@
-var MapStyle = [
+var mapStyle = [
   {
     "featureType": "administrative",
     "elementType": "labels.text.fill",
@@ -79,4 +79,4 @@ var MapStyle = [
   }
 ];
 
-module.exports = MapStyle;
+module.exports = mapStyle;
