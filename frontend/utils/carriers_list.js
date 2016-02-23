@@ -1,4 +1,4 @@
-var carriers = {
+var carriersList = {
 	ups: "UPS",
 	usps: "USPS",
 	fedex: "FedEx",
@@ -8,4 +8,4 @@ var carriers = {
 	mondial_relay: "Mondial Relay"
 };
 
-module.exports = carriers;
+module.exports = carriersList;
