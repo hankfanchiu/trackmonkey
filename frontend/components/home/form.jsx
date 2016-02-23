@@ -4,7 +4,7 @@ var browserHistory = require("react-router").browserHistory;
 var Input = require("react-bootstrap").Input;
 var ButtonInput = require("react-bootstrap").ButtonInput;
 var Well = require("react-bootstrap").Well;
-var detectCarrier = require("./detect_carrier");
+var detectCarrier = require("../../utils/detect_carrier");
 var CarrierDropdown = require("./carrier_dropdown");
 var VerifyPinModal = require("./verify_pin_modal");
 
@@ -35,6 +35,7 @@ var Form = React.createClass({
 
 	pushToMap: function () {
 		var url = "/tracking/" + this.state.carrier + "___" + this.state.trackingNo;
+
 		browserHistory.push(url);
 	},
 

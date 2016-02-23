@@ -1,7 +1,7 @@
 var React = require("react");
 var DropdownButton = require("react-bootstrap").DropdownButton;
 var MenuItem = require("react-bootstrap").MenuItem;
-var carriers = require("./carriers");
+var carriers = require("../../utils/carriers");
 
 var CarrierDropdown = React.createClass({
 	setCarrier: function (e, carrier) {

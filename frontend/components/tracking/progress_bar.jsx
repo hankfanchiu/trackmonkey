@@ -1,8 +1,8 @@
-var React = require('react');
-var ListGroup = require('react-bootstrap').ListGroup;
-var ListGroupItem = require('react-bootstrap').ListGroupItem;
-var Panel = require('react-bootstrap').Panel;
-var addressFromLocation = require('./addressFromLocation');
+var React = require("react");
+var ListGroup = require("react-bootstrap").ListGroup;
+var ListGroupItem = require("react-bootstrap").ListGroupItem;
+var Panel = require("react-bootstrap").Panel;
+var getAddressFromLocation = require("../../utils/get_address_from_location");
 
 var ProgressBar = React.createClass({
   getInitialState: function () {
@@ -42,7 +42,7 @@ var ProgressBar = React.createClass({
 
     for (var i = 1; i < historyItems.length; i++) {
       var eventCurrent = historyItems[i];
-      var eventLocation = addressFromLocation(eventCurrent["location"]);
+      var eventLocation = getAddressFromLocation(eventCurrent["location"]);
       var eventDate = (new Date(eventCurrent["status_date"])).toGMTString();
 
       var tempHTMLEl = (
@@ -65,7 +65,7 @@ var ProgressBar = React.createClass({
   createFirstHTMLEl: function () {
     var firstHTMLEl = [];
     var firstItem = this.generateHistory()[0];
-    var firstItemLocation = addressFromLocation(firstItem["location"]);
+    var firstItemLocation = getAddressFromLocation(firstItem["location"]);
     var firstItemDate = (new Date(firstItem["status_date"])).toGMTString();
 
     var tempHTMLEl = (

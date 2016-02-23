@@ -1,7 +1,7 @@
 var React = require("react");
 var Well = require("react-bootstrap").Well;
-var Portrait = require("./portrait.jsx");
-var trackMonkeyTeam = require("./trackmonkey_team");
+var Portrait = require("./portrait");
+var trackMonkeyTeam = require("../../utils/trackmonkey_team");
 
 var About = React.createClass({
   portraits: function () {

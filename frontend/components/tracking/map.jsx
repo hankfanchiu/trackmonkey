@@ -1,10 +1,10 @@
-var React = require('react');
-var MapStyle = require('./mapstyle.js');
-var addressFromLocation = require('./addressFromLocation.js');
+var React = require("react");
+var MapStyle = require("../../utils/map_style");
+var getAddressFromLocation = require("../../utils/get_address_from_location");
 
 var Map = React.createClass ({
   getInitialState: function() {
-    return { markers: '' };
+    return { markers: "" };
   },
 
   componentDidMount: function(){
@@ -118,7 +118,7 @@ var Map = React.createClass ({
 
     for (var i = 0; i < addresses.length; i++) {
 			locationObject = addresses[i]["location"];
-      addressString = addressFromLocation(locationObject);
+      addressString = getAddressFromLocation(locationObject);
 
       if (addressString !== " " && addressString !== "" && addressStrings.indexOf(addressString) === -1) {
         addressStrings.push(addressString);
