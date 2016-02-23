@@ -1,16 +1,7 @@
 var React = require("react");
 var DropdownButton = require("react-bootstrap").DropdownButton;
 var MenuItem = require("react-bootstrap").MenuItem;
-
-var carriers = {
-	ups: "UPS",
-	usps: "USPS",
-	fedex: "FedEx",
-	dhl_express: "DHL Express",
-	canada_post: "Canada Post",
-	lasership: "LaserShip",
-	mondial_relay: "Mondial Relay"
-};
+var carriers = require("./carriers");
 
 var CarrierDropdown = React.createClass({
 	setCarrier: function (e, carrier) {
@@ -39,10 +30,10 @@ var CarrierDropdown = React.createClass({
 
 	render: function () {
 		return (
-			<DropdownButton title={this.dropdownTitle()}
+			<DropdownButton pullRight
 				id="input-dropdown-addon"
-				onSelect={this.setCarrier}
-				pullRight>
+				title={this.dropdownTitle()}
+				onSelect={this.setCarrier}>
 
 				{this.carrierOptions()}
 			</DropdownButton>
