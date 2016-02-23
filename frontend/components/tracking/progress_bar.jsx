@@ -32,7 +32,7 @@ var ProgressBar = React.createClass({
   locationList: function () {
     var trackingHistory = this.props.trackingHistory;
 
-    if (trackingHistory.length <= 1) { return; } 
+    if (trackingHistory.length <= 1) { return; }
 
     var locationList = [];
     var tracking, date, address, locationItem;

@@ -32,7 +32,7 @@ var Tracking = React.createClass({
 		return (
 			<main>
 				<Map shipment={shipment}/>
-				
+
 				<ProgressBar trackingHistory={shipment.tracking_history}/>
 			</main>
 		);
