@@ -9,31 +9,28 @@
   <meta name="author"
     content="Byron Sha, Daniel Eager, Hank Fanchiu, Johnny Reis, Mack Siu">
 
+  <%= favicon_link_tag 'favicon.ico' %>
+  <%= csrf_meta_tags %>
+
   <!-- Begin stylsheets -->
   <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
     media: 'all' %>
 
+  <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css",
+    media: 'all' %>
+
   <%= stylesheet_link_tag 'application', media: 'all' %>
-
-  <link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- End stylesheets -->
-
-  <%= csrf_meta_tags %>
 
   <!-- Begin scripts -->
   <%= javascript_include_tag 'application', cache: true %>
-  
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd81mUjL99kPTrrVRrv_L5ihEQbEqJ3PY">
-  </script>
+
+  <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyDd81mUjL99kPTrrVRrv_L5ihEQbEqJ3PY" %>
 
   <script>
-    (function (i,s,o,g,r,a,m) {
+    (function(i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments);
-      };
+      i[r] = i[r] || function() { (i[r].q = i[r].q || []).push(arguments) };
       i[r].l = 1 * new Date();
       a = s.createElement(o);
       m = s.getElementsByTagName(o)[0];
