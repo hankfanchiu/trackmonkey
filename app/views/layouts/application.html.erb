@@ -2,26 +2,51 @@
 <html>
 <head>
   <title>TrackMonkey | Find your package</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Visualize your shipment's transit route on a map as well as the transit history in detail. Register your phone number to receive real-time SMS updates.">
+  <meta name="author"
+    content="Byron Sha, Daniel Eager, Hank Fanchiu, Johnny Reis, Mack Siu">
 
-
+  <!-- Begin stylsheets -->
   <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
     media: 'all' %>
 
   <%= stylesheet_link_tag 'application', media: 'all' %>
 
-
-  <%= javascript_include_tag 'application', cache: true %>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <link rel="stylesheet"
     href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- End stylesheets -->
 
   <%= csrf_meta_tags %>
 
+  <!-- Begin scripts -->
+  <%= javascript_include_tag 'application', cache: true %>
+  
   <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd81mUjL99kPTrrVRrv_L5ihEQbEqJ3PY">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd81mUjL99kPTrrVRrv_L5ihEQbEqJ3PY">
   </script>
+
+  <script>
+    (function (i,s,o,g,r,a,m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments);
+      };
+      i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a,m);
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-74430584-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <!-- End scripts -->
+
 </head>
 <body>
 
