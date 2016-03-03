@@ -32,7 +32,7 @@ var Form = React.createClass({
 
 	handleSubmit: function (e) {
 		e.preventDefault();
-
+		this.setState({ alertVisible: false });
 		this.getTracking();
 	},
 
