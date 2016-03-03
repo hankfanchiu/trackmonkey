@@ -67,7 +67,11 @@ var Form = React.createClass({
 	},
 
 	alertInvalidTracking: function () {
-		this.setState({alertVisible: true})
+		this.setState({alertVisible: true});
+	},
+
+	dismissAlert: function () {
+		this.setState({ alertVisible: false });
 	},
 
 	handleValidTracking: function (data) {
@@ -159,11 +163,8 @@ var Form = React.createClass({
 			return (
 				<Alert
 					bsStyle="danger"
-					onDismiss={this.handleAlertDismiss}>
+					onDismiss={this.dismissAlert}>
 					<h4>Invalid Tracking Number or Carrier.</h4>
-					<Button onClick={this.handleAlertDismiss}>
-						Okay
-					</Button>
 				</Alert>
 			)
 		} else {
