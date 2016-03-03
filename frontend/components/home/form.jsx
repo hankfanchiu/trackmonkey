@@ -2,6 +2,7 @@ var React = require("react");
 var LinkedStateMixin = require("react-addons-linked-state-mixin");
 var browserHistory = require("react-router").browserHistory;
 var Input = require("react-bootstrap").Input;
+var Button = require("react-bootstrap").Button;
 var ButtonInput = require("react-bootstrap").ButtonInput;
 var Alert = require('react-bootstrap').Alert;
 var Well = require("react-bootstrap").Well;
