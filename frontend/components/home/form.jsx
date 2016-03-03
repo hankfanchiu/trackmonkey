@@ -2,13 +2,14 @@ var React = require("react");
 var LinkedStateMixin = require("react-addons-linked-state-mixin");
 var browserHistory = require("react-router").browserHistory;
 var Input = require("react-bootstrap").Input;
-var Button = require("react-bootstrap").Button;
 var ButtonInput = require("react-bootstrap").ButtonInput;
+var Button = require("react-bootstrap").Button;
 var Alert = require('react-bootstrap').Alert;
 var Well = require("react-bootstrap").Well;
 var detectCarrier = require("../../utils/detect_carrier");
 var CarrierDropdown = require("./carrier_dropdown");
 var VerifyPinModal = require("./verify_pin_modal");
+var validPhoneNo = require("../../utils/valid_phone_number");
 
 var Form = React.createClass({
 	mixins: [LinkedStateMixin],
@@ -75,7 +76,7 @@ var Form = React.createClass({
 	},
 
 	handleValidTracking: function (data) {
-		if (this.validPhoneNo()) {
+		if (validPhoneNo(this.state.phoneNo)) {
 			this.postPackageData();
 		} else {
 			this.pushToMap();
@@ -132,17 +133,10 @@ var Form = React.createClass({
 		} else if (this.state.phoneNo === "") {
 			return false;
 		} else {
-			return !this.validPhoneNo();
+			return !validPhoneNo(this.state.phoneNo);
 		}
 	},
 
-	validPhoneNo: function() {
-		if (this.state.phoneNo.length !== 10) {
-			return false;
-		}
-
-		return (this.state.phoneNo.match(/\d{10}/) !== null);
-	},
 
 	handleTrackNumberChange: function () {
 		var trackingNumber = this.refs.tracking.getValue();
