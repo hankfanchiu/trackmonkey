@@ -179,7 +179,7 @@ var Form = React.createClass({
 					type="text"
 					ref="tracking"
 					buttonAfter={this.carrierDropdown()}
-					onChange={this.handleTrackNumberChange}/>
+					onChange={this.handleTrackNumberChange} />
 
 				{this.alertBox()}
 
