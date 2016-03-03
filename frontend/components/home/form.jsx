@@ -3,6 +3,7 @@ var LinkedStateMixin = require("react-addons-linked-state-mixin");
 var browserHistory = require("react-router").browserHistory;
 var Input = require("react-bootstrap").Input;
 var ButtonInput = require("react-bootstrap").ButtonInput;
+var Alert = require('react-bootstrap').Alert;
 var Well = require("react-bootstrap").Well;
 var detectCarrier = require("../../utils/detect_carrier");
 var CarrierDropdown = require("./carrier_dropdown");
@@ -19,7 +20,8 @@ var Form = React.createClass({
 			receiveUpdates: true,
 			modalOpen: false,
 			packageId: "",
-			pin: ""
+			pin: "",
+			alertVisible: false
 		};
 	},
 
@@ -64,9 +66,7 @@ var Form = React.createClass({
 	},
 
 	alertInvalidTracking: function () {
-		alert("Invalid tracking information.");
-
-		this.setState(this.getInitialState());
+		this.setState({alertVisible: true})
 	},
 
 	handleValidTracking: function (data) {
@@ -153,6 +153,23 @@ var Form = React.createClass({
 		);
 	},
 
+	alertBox: function() {
+		if (this.state.alertVisible) {
+			return (
+				<Alert
+					bsStyle="danger"
+					onDismiss={this.handleAlertDismiss}>
+					<h4>Invalid Tracking Number or Carrier.</h4>
+					<Button onClick={this.handleAlertDismiss}>
+						Okay
+					</Button>
+				</Alert>
+			)
+		} else {
+			return ("");
+		}
+	},
+
 	render: function  () {
 		return (
 			<form onSubmit={this.handleSubmit}>
@@ -161,6 +178,8 @@ var Form = React.createClass({
 					ref="tracking"
 					buttonAfter={this.carrierDropdown()}
 					onChange={this.handleTrackNumberChange}/>
+
+				{this.alertBox()}
 
     		<Well>
 					<h4>Get SMS Updates (optional)</h4>
