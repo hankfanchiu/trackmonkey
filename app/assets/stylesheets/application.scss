@@ -170,3 +170,13 @@ a {
   padding: 10px;
   border-radius: 50%;
 }
+
+.alert h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.alert span {
+  position: relative;
+  top: -2px;
+}
