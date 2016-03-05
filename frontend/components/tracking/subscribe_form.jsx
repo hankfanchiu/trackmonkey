@@ -12,7 +12,8 @@ var SubscribeForm = React.createClass({
     return {
       phoneNo: "",
       packageId: "",
-      modalOpen: false
+      modalOpen: false,
+      subscribed: false
     }
   },
 
@@ -50,23 +51,42 @@ var SubscribeForm = React.createClass({
   },
 
   onSuccess: function () {
-    this.setState({ modalOpen: false });
-    alert ("success");
+    this.setState({
+      modalOpen: false,
+      subscribed: true
+     });
   },
 
 	subscribeButton: function() {
 		return (
 			<ButtonInput
+        bsStyle="primary"
 				onClick={this.postPackageData}
-				disabled={!validPhoneNo(this.state.phoneNo)}>
-				Subscribe
+				disabled={this.buttonDisabled()}>
+				{this.buttonText()}
 			</ButtonInput>
 		)
 	},
 
+  buttonDisabled: function() {
+    if (this.state.subscribed) {
+      return true;
+    } else {
+      return !validPhoneNo(this.state.phoneNo);
+    }
+  },
+
+  buttonText: function() {
+    if (this.state.subscribed) {
+      return "Subscribed!";
+    } else {
+      return "Subscribe";
+    }
+  },
+
   render: function () {
     return (
-      <div>
+      <div className="retro-track">
         <Input
           placeholder="Enter phone number for SMS updates"
           type="text"
@@ -77,7 +97,8 @@ var SubscribeForm = React.createClass({
 					trackingNo={this.props.trackingDetails.trackingNo}
 					carrier={this.props.trackingDetails.carrier}
 					packageId={this.state.packageId}
-					onSuccess={this.onSuccess} />
+					onSuccess={this.onSuccess}
+          closeModal={this.closeModal} />
       </div>
     );
   }

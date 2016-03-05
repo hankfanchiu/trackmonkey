@@ -181,10 +181,7 @@ a {
   top: -2px;
 }
 
-.btn:disabled {
-  background-color: #eee;
-}
-
-.btn {
-  background-color: #eee;
+.modal-body .alert {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }

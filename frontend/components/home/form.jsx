@@ -23,7 +23,8 @@ var Form = React.createClass({
 			modalOpen: false,
 			packageId: "",
 			pin: "",
-			alertVisible: false
+			alertVisible: false,
+			processingRequest: false
 		};
 	},
 
@@ -33,7 +34,10 @@ var Form = React.createClass({
 
 	handleSubmit: function (e) {
 		e.preventDefault();
-		this.setState({ alertVisible: false });
+		this.setState({
+			alertVisible: false,
+		 	processingRequest: true
+		});
 		this.getTracking();
 	},
 
@@ -116,6 +120,14 @@ var Form = React.createClass({
     this.setState({ modalOpen: false });
   },
 
+	buttonText: function() {
+		if (!this.state.processingRequest) {
+			return this.submitText();
+		} else {
+			return "Processing Request";
+		}
+	},
+
 	submitText: function () {
 		if (this.state.phoneNo === "") {
 			return "Find Package";
@@ -125,7 +137,9 @@ var Form = React.createClass({
 	},
 
 	submitDisabled: function() {
-		if (this.state.carrier === "") {
+		if (this.state.processingRequest) {
+			return true;
+		} else if (this.state.carrier === "") {
 			return true;
 		} else if (this.state.trackingNo === "") {
 			return true;
@@ -160,7 +174,7 @@ var Form = React.createClass({
 				<Alert
 					bsStyle="danger"
 					onDismiss={this.dismissAlert}>
-					<h4>Invalid Tracking Number or Carrier.</h4>
+					<h4>Invalid tracking number or carrier.</h4>
 				</Alert>
 			)
 		} else {
@@ -196,14 +210,15 @@ var Form = React.createClass({
         <ButtonInput type="submit" block
 					bsStyle="primary"
 					bsSize="large"
-					value={this.submitText()}
+					value={this.buttonText()}
 					disabled={this.submitDisabled()}/>
 
 				<VerifyPinModal modalOpen={this.state.modalOpen}
 					trackingNo={this.state.trackingNo}
 					carrier={this.state.carrier}
 					packageId={this.state.packageId}
-					onSuccess={this.pushToMap} />
+					onSuccess={this.pushToMap}
+					closeModal={this.closeModal} />
 			</form>
 		);
 	}
