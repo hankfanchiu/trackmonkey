@@ -97,7 +97,10 @@ var Form = React.createClass({
 			dataType: 'json',
 			data: {package: packageData},
 			success: function (data) {
-				this.setState({ modalOpen: true, packageId: data.package_id });
+				this.setState({
+					modalOpen: true,
+					packageId: data.package_id
+				});
 			}.bind(this),
 			error: function (data) {
 				console.log("Failed");
@@ -108,10 +111,6 @@ var Form = React.createClass({
 	toggleTracking: function () {
 		this.setState({ tracking: !this.state.tracking });
 	},
-
-  openModal: function() {
-    this.setState({ modalOpen: true });
-  },
 
   closeModal: function() {
     this.setState({ modalOpen: false });
@@ -142,7 +141,10 @@ var Form = React.createClass({
 		var trackingNumber = this.refs.tracking.getValue();
 		var carrier = detectCarrier(trackingNumber);
 
-		this.setState({ trackingNo: trackingNumber, carrier: carrier });
+		this.setState({
+			trackingNo: trackingNumber,
+			carrier: carrier
+		});
 	},
 
 	carrierDropdown: function () {
@@ -201,8 +203,7 @@ var Form = React.createClass({
 					trackingNo={this.state.trackingNo}
 					carrier={this.state.carrier}
 					packageId={this.state.packageId}
-					closeModal={this.closeModal}
-					pushToMap={this.pushToMap} />
+					onSuccess={this.pushToMap} />
 			</form>
 		);
 	}
