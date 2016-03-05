@@ -217,7 +217,8 @@ var Form = React.createClass({
 					trackingNo={this.state.trackingNo}
 					carrier={this.state.carrier}
 					packageId={this.state.packageId}
-					onSuccess={this.pushToMap} />
+					onSuccess={this.pushToMap}
+					closeModal={this.closeModal} />
 			</form>
 		);
 	}

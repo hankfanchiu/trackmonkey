@@ -15,6 +15,7 @@ var VerifyPinModal = React.createClass({
 		});
 	},
 
+
   disabled: function () {
     return (this.state.pin.match(/\d{4}/) === null);
   },
