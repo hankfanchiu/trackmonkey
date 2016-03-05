@@ -180,3 +180,11 @@ a {
   position: relative;
   top: -2px;
 }
+
+.btn:disabled {
+  background-color: #eee;
+}
+
+.btn {
+  background-color: #eee;
+}

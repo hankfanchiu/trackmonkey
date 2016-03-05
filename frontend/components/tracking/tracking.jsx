@@ -1,16 +1,29 @@
 var React = require("react");
 var Map = require("./map");
 var ProgressBar = require("./progress_bar");
+var SubscribeForm = require("./subscribe_form");
+var validPhoneNo = require("../../utils/valid_phone_number");
 
 var Tracking = React.createClass({
 	getInitialState: function () {
-		return { shipment: null };
+		return {
+			shipment: null
+		};
 	},
 
 	componentDidMount: function() {
+		var trackingDetails = this.trackingDetails();
+
+		this.getShipmentData(trackingDetails.carrier, trackingDetails.trackingNo);
+	},
+
+	trackingDetails: function() {
 		var tracking = this.props.params.shipment.split("___");
 
-		this.getShipmentData(tracking[0], tracking[1]);
+		return ({
+			carrier: tracking[0],
+			trackingNo: tracking[1]
+		})
 	},
 
 	getShipmentData: function (carrier, trackingNo) {
@@ -30,6 +43,7 @@ var Tracking = React.createClass({
 		return (
 			<main>
 				<Map trackingHistory={trackHistory}/>
+				<SubscribeForm trackingDetails={this.trackingDetails()} />
 				<ProgressBar trackingHistory={trackHistory}/>
 			</main>
 		);

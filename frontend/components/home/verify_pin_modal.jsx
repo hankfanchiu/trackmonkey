@@ -31,12 +31,12 @@ var VerifyPinModal = React.createClass({
 		};
 
 		$.ajax({
-			url: 'packages/' + this.props.packageId,
+			url: '/packages/' + this.props.packageId,
 			type: 'PATCH',
 			dataType: 'json',
 			data: {package: packageData},
 			success: function () {
-				this.props.pushToMap();
+				this.props.onSuccess();
 			}.bind(this),
 			error: function (data) {
 				console.log("Failed");
