@@ -66,7 +66,7 @@ var SubscribeForm = React.createClass({
 
   render: function () {
     return (
-      <div>
+      <div className="retro-track">
         <Input
           placeholder="Enter phone number for SMS updates"
           type="text"

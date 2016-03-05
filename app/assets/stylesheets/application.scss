@@ -181,10 +181,15 @@ a {
   top: -2px;
 }
 
-.btn:disabled {
+.retro-track .btn:disabled {
   background-color: #eee;
 }
 
-.btn {
+.retro-track .btn {
   background-color: #eee;
+}
+
+.modal-body .alert {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
