@@ -1,6 +1,6 @@
 # TrackMonkey
 
-[TrackMonkey](http://trackmonkey.io/) is a mobile web application to trace your shipment. Enter in the tracking number of your shipment, and see the transit route on a map as well as the transit history in detail.
+TrackMonkey is a mobile web application to trace your shipment. Enter in the tracking number of your shipment, and see the transit route on a map as well as the transit history in detail.
 
 You could also register your phone number to receive real-time SMS updates for a shipment.
 
