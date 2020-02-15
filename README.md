@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This project is no longer maintained.
+
 # TrackMonkey
 
 TrackMonkey is a mobile web application to trace your shipment. Enter in the tracking number of your shipment, and see the transit route on a map as well as the transit history in detail.
